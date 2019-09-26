@@ -11,6 +11,7 @@ public class GameScreen extends AbstractScreen {
 
     private SpriteBatch spriteBatch;
     private GameUI gameUI;
+    private boolean inMenu;
 
     public GameScreen(BounceBack context) {
         super(context);
@@ -32,7 +33,8 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void setInMenu(){
-        context.setPaused(true);
+        //context.setPaused(true);
+        inMenu = true;
         gameUI.blank();
         gameUI.createMenuUI();
 
@@ -40,7 +42,8 @@ public class GameScreen extends AbstractScreen {
     public void startGame(){
         Gdx.app.debug("XD","XD");
         gameUI.crateInGameUI();
-        context.setPaused(false);
+        inMenu = false;
+        //context.setPaused(false);
     }
     @Override
     protected Table getScreenUI(BounceBack context) {
@@ -74,5 +77,13 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void dispose() {
 
+    }
+
+    public boolean isInMenu() {
+        return inMenu;
+    }
+
+    public void setInMenu(boolean inMenu) {
+        this.inMenu = inMenu;
     }
 }

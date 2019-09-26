@@ -35,6 +35,7 @@ public class GameUI extends Table implements Updatable {
             public void clicked(InputEvent event, float x, float y) {
                 blank();
                 context.getGameScreen().startGame();
+                context.getPlayer().getPlayerBody().setActive(true);
             }
         });
         //this.rotateBy(180);

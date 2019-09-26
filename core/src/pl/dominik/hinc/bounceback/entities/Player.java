@@ -115,17 +115,13 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             createDeadPlayerRemainings(playerBody.getPosition());
             playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
             playerBody.setLinearVelocity(2.5f,0);
+            context.setScore(0);
+            context.getSpikeCreator().updateSpikes();
             //context.getWorld().destroyBody(playerBody);
             //playerBody = null;
             isDead = false;
         }
         if(playerBody != null){
-            /*shapeRenderer.setProjectionMatrix(context.getScreenViewport().getCamera().combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(1,1,1,1);
-            shapeRenderer.rect(playerBody.getPosition().x,playerBody.getPosition().y,0.5f,0.5f);
-            shapeRenderer.end();*/
-            //Gdx.app.debug("Player Velo ",playerBody.getLinearVelocity().toString());
             if (Gdx.input.isKeyPressed(Input.Keys.PLUS)){
                 OrthographicCamera camera = (OrthographicCamera) context.getScreenViewport().getCamera();
                 camera.zoom -= 0.05f;
@@ -160,8 +156,12 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
                 playerBody.setLinearVelocity(-2.5f,playerBody.getLinearVelocity().y);
                 playerSprite.setFlip(true,false);
             }
-
+            if(context.getGameScreen().isInMenu()){
+                //playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
+                playerBody.setActive(false);
+            }
         }
+
 
     }
 
@@ -175,9 +175,16 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
 
     @Override
     public void touchDown(int screenX, int screenY, int pointer, int button) {
+
         if(!context.isPaused()){
-            playerBody.applyLinearImpulse(new Vector2(0,2.5f),playerBody.getWorldCenter(),true);
+            if(!context.getGameScreen().isInMenu()){
+                playerBody.applyLinearImpulse(new Vector2(0,2.5f),playerBody.getWorldCenter(),true);
+            }
         }
 
+    }
+
+    public Body getPlayerBody() {
+        return playerBody;
     }
 }
