@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import box2dLight.RayHandler;
 import pl.dominik.hinc.bounceback.entities.Player;
 import pl.dominik.hinc.bounceback.enums.ScreenType;
 import pl.dominik.hinc.bounceback.screens.AbstractScreen;
@@ -55,10 +57,13 @@ public class BounceBack extends Game {
 	private Viewport screenViewport;
 	private Stage stage;
 	private Skin skin;
+
 	private World world;
 	private WorldContactListener worldContactListener;
 	private Box2DDebugRenderer b2dDebugRenderer;
 	private Box2DWorldManager box2DWorldManager;
+	private RayHandler rayHandler;
+
 	private Player player;
 	private Array<Updatable> updatableArray;
 	private SpikeCreator spikeCreator;
@@ -98,6 +103,10 @@ public class BounceBack extends Game {
 		world.setContactListener(worldContactListener);
 		box2DWorldManager = new Box2DWorldManager(this);
         spikeCreator = new SpikeCreator(this);
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0,0,0,0.2f);
+        rayHandler.setCulling(true);
+
 		//Stage and scene2d Stuff
 		stage = new Stage(new FitViewport(SCREEN_WIDTH,SCREEN_HEIGHT),batch);
 		inputMultiplexer.addProcessor(stage);
@@ -114,6 +123,7 @@ public class BounceBack extends Game {
 		//Screen Related Code
 		screenCashe = new EnumMap<ScreenType, AbstractScreen>(ScreenType.class);
 		setScreen(ScreenType.LOADING);
+
 
 	}
 
@@ -145,6 +155,7 @@ public class BounceBack extends Game {
 				accumulator -= TIME_STEP;
 			}
 		}
+
 		//Render
 		batch.setProjectionMatrix(camera.combined);
 		if(inGame){
@@ -171,6 +182,7 @@ public class BounceBack extends Game {
 		assetManager.dispose();
 		skin.dispose();
 		currentBirdTexture.dispose();
+		rayHandler.dispose();
 	}
 	public void resetFixtureAndBodyDef(){
 		BODY_DEF.position.set(new Vector2(0,0));
@@ -235,7 +247,11 @@ public class BounceBack extends Game {
 		}
 	}
 
-	public GameScreen getGameScreen() {
+    public RayHandler getRayHandler() {
+        return rayHandler;
+    }
+
+    public GameScreen getGameScreen() {
 		return gameScreen;
 	}
 

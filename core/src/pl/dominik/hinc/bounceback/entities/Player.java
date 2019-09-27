@@ -2,6 +2,7 @@ package pl.dominik.hinc.bounceback.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,6 +10,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+
+import box2dLight.ConeLight;
+import box2dLight.DirectionalLight;
+import box2dLight.Light;
+import box2dLight.PointLight;
 import pl.dominik.hinc.bounceback.BounceBack;
 import pl.dominik.hinc.bounceback.tools.Collidable;
 import pl.dominik.hinc.bounceback.tools.InputListener;
@@ -25,6 +31,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     private float playerDiameter = 0.5f;
     private float texturePlusSize = 0.1f;
     private float degrees;
+    private Light playerLight;
     public Player(BounceBack context){
         this.context = context;
         playerVeloBeforeDead = new Vector2();
@@ -37,20 +44,35 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         //CircleShape shape = new CircleShape();
         //shape.setRadius(playerDiameter /2);
 
+        //Player Body
         BounceBack.BODY_DEF.position.set(startingPos);
         BounceBack.BODY_DEF.fixedRotation = true;
         BounceBack.BODY_DEF.gravityScale = 2;
         BounceBack.BODY_DEF.type = BodyDef.BodyType.DynamicBody;
+        //Player Fixture
         BounceBack.FIXTURE_DEF.shape =shape;
         BounceBack.FIXTURE_DEF.filter.categoryBits = BounceBack.PLAYER_BIT;
+        //Create Body And Fixture
         playerBody = context.getWorld().createBody(BounceBack.BODY_DEF);
         playerFixture = playerBody.createFixture(BounceBack.FIXTURE_DEF);
         playerBody.setLinearVelocity(2.5f,0);
         playerFixture.setUserData(this);
+
+        /*BounceBack.BODY_DEF.type = BodyDef.BodyType.KinematicBody;
+        BounceBack.BODY_DEF.position.set(new Vector2(3,7));
+        BounceBack.BODY_DEF.linearVelocity.set(1,0);
+
+        context.getWorld().createBody(BounceBack.BODY_DEF).createFixture(BounceBack.FIXTURE_DEF);*/
         context.resetFixtureAndBodyDef();
         shape.dispose();
         context.getInputManager().addListener(this);
         prepareTexture();
+        //Player Light
+        playerLight = new PointLight(context.getRayHandler(),2048,new Color(1,1,1,0.4f),5,playerBody.getPosition().x,playerBody.getPosition().y);
+        //playerLight = new ConeLight(context.getRayHandler(),128,new Color(0,0,0,0.7f),6,playerBody.getPosition().x,playerBody.getPosition().y,1,80);
+        playerLight.attachToBody(playerBody);
+
+
     }
 
     private void prepareTexture() {
@@ -115,7 +137,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             createDeadPlayerRemainings(playerBody.getPosition());
             playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
             playerBody.setLinearVelocity(2.5f,0);
-            context.setScore(0);
+            context.setScore(-1);
             context.getSpikeCreator().updateSpikes();
             //context.getWorld().destroyBody(playerBody);
             //playerBody = null;
@@ -152,9 +174,13 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             if(context.getSpikeCreator().isGoRight()){
                 playerBody.setLinearVelocity(2.5f,playerBody.getLinearVelocity().y);
                 playerSprite.setFlip(false,false);
+                playerBody.setTransform(playerBody.getPosition(),0);
+                //playerLight.setDirection(0);
             }else if(context.getSpikeCreator().isGoRight() == false){
                 playerBody.setLinearVelocity(-2.5f,playerBody.getLinearVelocity().y);
                 playerSprite.setFlip(true,false);
+                playerBody.setTransform(playerBody.getPosition(),MathUtils.PI);
+                //playerLight.setDirection(0);
             }
             if(context.getGameScreen().isInMenu()){
                 //playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
