@@ -103,8 +103,9 @@ public class BounceBack extends Game {
 		world.setContactListener(worldContactListener);
 		box2DWorldManager = new Box2DWorldManager(this);
         spikeCreator = new SpikeCreator(this);
+		RayHandler.useDiffuseLight(true);
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0,0,0,0.2f);
+        rayHandler.setAmbientLight(0.1f,0.1f,0.1f,0.2f);
         rayHandler.setCulling(true);
 
 		//Stage and scene2d Stuff

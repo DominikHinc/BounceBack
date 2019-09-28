@@ -43,7 +43,7 @@ public class GameUI extends Table implements Updatable {
 
     }
     public void crateInGameUI(){
-        this.add(scoreLabel);
+        this.add(scoreLabel).expandX();
         top();
 
     }

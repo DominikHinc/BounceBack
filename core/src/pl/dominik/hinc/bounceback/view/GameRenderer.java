@@ -39,10 +39,11 @@ public class GameRenderer {
         lightArray = new Array<>();
         int rays = 2048;
         int distance = 8;
-        PointLight light1 = new PointLight(context.getRayHandler(),rays,new Color(0,0,0,0.75f),distance,3,3);
-        PointLight light2 = new PointLight(context.getRayHandler(),rays,new Color(0,0,0,0.75f),distance,3,13);
-        PointLight light3 = new PointLight(context.getRayHandler(),rays,new Color(0,0,0,0.75f),distance,6,3);
-        PointLight light4 = new PointLight(context.getRayHandler(),rays,new Color(0,0,0,0.75f),distance,6,13);
+        Color color = new Color(0.5f,0.5f,0.5f,1);
+        PointLight light1 = new PointLight(context.getRayHandler(),rays,color,distance,3,3);
+        PointLight light2 = new PointLight(context.getRayHandler(),rays,color,distance,3,13);
+        PointLight light3 = new PointLight(context.getRayHandler(),rays,color,distance,6,3);
+        PointLight light4 = new PointLight(context.getRayHandler(),rays,color,distance,6,13);
         lightArray.add(light1);
         lightArray.add(light2);
         lightArray.add(light3);
@@ -50,6 +51,7 @@ public class GameRenderer {
         for(Light light:lightArray){
             light.setSoftnessLength(1);
             light.setSoft(true);
+
         }
         //light = new PointLight(context.getRayHandler(),2048,new Color(0,0,0,0.75f),8,4.5f,8);
         //light.setSoft(true);
