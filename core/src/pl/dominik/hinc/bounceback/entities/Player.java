@@ -31,7 +31,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     private float playerDiameter = 0.5f;
     private float texturePlusSize = 0.1f;
     private float degrees;
-    private Light playerLight;
+
     public Player(BounceBack context){
         this.context = context;
         playerVeloBeforeDead = new Vector2();
@@ -137,8 +137,10 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             createDeadPlayerRemainings(playerBody.getPosition());
             playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
             playerBody.setLinearVelocity(2.5f,0);
+            int temp = context.getScore();
             context.setScore(-1);
             context.getSpikeCreator().updateSpikes();
+            context.setScore(temp);
             //context.getWorld().destroyBody(playerBody);
             //playerBody = null;
             isDead = false;

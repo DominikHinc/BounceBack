@@ -79,8 +79,9 @@ public class BounceBack extends Game {
 	private Texture currentBirdTexture;
 	private boolean isInGame = false;
 	private GameScreen gameScreen;
-
+	//Preferences
 	private Preferences preferences;
+	public final static String HIGHSCOREPREFS = "HIGH_SCORE_SAVE";
 
 	
 	@Override
@@ -130,7 +131,7 @@ public class BounceBack extends Game {
 		screenCashe = new EnumMap<ScreenType, AbstractScreen>(ScreenType.class);
 		setScreen(ScreenType.LOADING);
 		//Preferences
-		
+		preferences = Gdx.app.getPreferences("BounceBack Save");
 
 	}
 
@@ -190,6 +191,7 @@ public class BounceBack extends Game {
 		skin.dispose();
 		currentBirdTexture.dispose();
 		rayHandler.dispose();
+
 	}
 	public void resetFixtureAndBodyDef(){
 		BODY_DEF.position.set(new Vector2(0,0));
@@ -218,7 +220,8 @@ public class BounceBack extends Game {
 		final FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		fontParameter.minFilter = Texture.TextureFilter.Linear;
 		fontParameter.magFilter = Texture.TextureFilter.Linear;
-		final int[] sizesFont = {100,128,148,169};
+		fontParameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + ":";
+		final int[] sizesFont = {32,100,128,148,169};
 		for (int size:sizesFont){
 			fontParameter.size = size;
 			final BitmapFont bitmapFont = fontGenerator.generateFont(fontParameter);
@@ -254,7 +257,11 @@ public class BounceBack extends Game {
 		}
 	}
 
-    public RayHandler getRayHandler() {
+	public Preferences getPreferences() {
+		return preferences;
+	}
+
+	public RayHandler getRayHandler() {
         return rayHandler;
     }
 

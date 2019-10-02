@@ -97,6 +97,10 @@ public class GameScreen extends AbstractScreen {
         viewport.apply(false);
         viewport.getCamera().update();
         if(context.getPlayer().isDead()){
+            if (context.getScore() > context.getPreferences().getInteger(BounceBack.HIGHSCOREPREFS)){
+                context.getPreferences().putInteger(BounceBack.HIGHSCOREPREFS,context.getScore());
+                context.getPreferences().flush();
+            }
             setInMenu();
         }
         //spriteBatch.setProjectionMatrix(context.getCamera().combined);
