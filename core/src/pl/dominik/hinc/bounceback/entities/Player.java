@@ -68,9 +68,9 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         context.getInputManager().addListener(this);
         prepareTexture();
         //Player Light
-        playerLight = new PointLight(context.getRayHandler(),2048,new Color(0.4f,0.4f,0.4f,1f),5,playerBody.getPosition().x,playerBody.getPosition().y);
-        //playerLight = new ConeLight(context.getRayHandler(),128,new Color(0,0,0,0.7f),6,playerBody.getPosition().x,playerBody.getPosition().y,1,80);
-        playerLight.attachToBody(playerBody);
+        context.getGameRenderer().createPlayerLight();
+        //playerLight = new PointLight(context.getRayHandler(),2048,new Color(0.4f,0.4f,0.4f,1f),5,playerBody.getPosition().x,playerBody.getPosition().y);
+        //playerLight.attachToBody(playerBody);
 
 
     }

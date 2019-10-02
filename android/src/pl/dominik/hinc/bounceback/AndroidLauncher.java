@@ -10,7 +10,12 @@ public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration(){{
+			r = 8;
+			g = 8;
+			b = 8;
+			a = 8;
+		}};
 		initialize(new BounceBack(), config);
 	}
 }

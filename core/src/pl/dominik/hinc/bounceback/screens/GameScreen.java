@@ -1,9 +1,17 @@
 package pl.dominik.hinc.bounceback.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
+import box2dLight.PointLight;
 import pl.dominik.hinc.bounceback.BounceBack;
 import pl.dominik.hinc.bounceback.view.GameUI;
 
@@ -12,6 +20,10 @@ public class GameScreen extends AbstractScreen {
     private SpriteBatch spriteBatch;
     private GameUI gameUI;
     private boolean inMenu;
+
+    //TEST
+    private Body body;
+    private Fixture fixture;
 
     public GameScreen(BounceBack context) {
         super(context);
@@ -28,8 +40,35 @@ public class GameScreen extends AbstractScreen {
         context.getSpikeCreator().start();
         gameUI = (GameUI) screenUI;
         setInMenu();
+        //TEST
+        //createDebug();
         //context.getStage().addActor(getScreenUI(context));
 
+    }
+
+    private void createDebug() {
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(250f,250f);
+        //CircleShape shape = new CircleShape();
+        //shape.setRadius(playerDiameter /2);
+
+        //Player Body
+        BounceBack.BODY_DEF.position.set(new Vector2(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2));
+        BounceBack.BODY_DEF.fixedRotation = true;
+        BounceBack.BODY_DEF.gravityScale = 2;
+        BounceBack.BODY_DEF.type = BodyDef.BodyType.DynamicBody;
+        BounceBack.BODY_DEF.linearVelocity.set(500,300);
+        //Player Fixture
+        BounceBack.FIXTURE_DEF.shape =shape;
+        BounceBack.FIXTURE_DEF.filter.categoryBits = BounceBack.PLAYER_BIT;
+        //Create Body And Fixture
+        body = context.getWorld().createBody(BounceBack.BODY_DEF);
+        fixture = body.createFixture(BounceBack.FIXTURE_DEF);
+        int rays = 2048;
+        int distance = 1200;
+        Color color = new Color(1f,1f,1f,1);
+        PointLight light2 = new PointLight(context.getRayHandler(),rays,color,distance,context.getScreenViewport().getWorldWidth()/4,context.getScreenViewport().getWorldHeight()/4);
+        PointLight light1 = new PointLight(context.getRayHandler(),rays,color,distance,context.getScreenViewport().getWorldWidth()-context.getScreenViewport().getWorldWidth()/4,context.getScreenViewport().getWorldHeight()- context.getScreenViewport().getWorldHeight()/4);
     }
 
     public void setInMenu(){

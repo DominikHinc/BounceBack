@@ -16,5 +16,6 @@ public class ColorManager {
 
     public void defineNewRandoCurrentColor(){
         currentColor.set(MathUtils.random(0.5f),MathUtils.random(0.5f),MathUtils.random(0.5f),MathUtils.random(0.5f));
+        context.getGameRenderer().changeLightsColor(currentColor);
     }
 }

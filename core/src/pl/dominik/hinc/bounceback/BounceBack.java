@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import box2dLight.RayHandler;
@@ -79,14 +80,19 @@ public class BounceBack extends Game {
 	private boolean isInGame = false;
 	private GameScreen gameScreen;
 
+	private Preferences preferences;
+
 	
 	@Override
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		Gdx.gl.glEnable(GL20.GL_DITHER);
 		batch = new SpriteBatch();
 		//Camera And Viewport
 		camera = new OrthographicCamera();
 		screenViewport = new FitViewport(9,16,camera);
+		//screenViewport = new StretchViewport(9,16,camera);
+		//camera.zoom = -25;
 		initStatics();
 		//InputManager
 		inputMultiplexer = new InputMultiplexer();
@@ -107,7 +113,6 @@ public class BounceBack extends Game {
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0.1f,0.1f,0.1f,0.2f);
         rayHandler.setCulling(true);
-
 		//Stage and scene2d Stuff
 		stage = new Stage(new FitViewport(SCREEN_WIDTH,SCREEN_HEIGHT),batch);
 		inputMultiplexer.addProcessor(stage);
@@ -124,7 +129,8 @@ public class BounceBack extends Game {
 		//Screen Related Code
 		screenCashe = new EnumMap<ScreenType, AbstractScreen>(ScreenType.class);
 		setScreen(ScreenType.LOADING);
-
+		//Preferences
+		
 
 	}
 

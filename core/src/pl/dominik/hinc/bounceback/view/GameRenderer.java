@@ -23,6 +23,7 @@ public class GameRenderer {
     private RayHandler rayHandler;
     private Label fpsLabel;
     private Array<Light> lightArray;
+    private PointLight playerLight;
     public GameRenderer(BounceBack context){
         this.context = context;
         this.spriteBatch = context.getBatch();
@@ -38,24 +39,29 @@ public class GameRenderer {
     public void createLights(){
         lightArray = new Array<>();
         int rays = 2048;
-        int distance = 8;
-        Color color = new Color(0.5f,0.5f,0.5f,1);
-        PointLight light1 = new PointLight(context.getRayHandler(),rays,color,distance,3,3);
-        PointLight light2 = new PointLight(context.getRayHandler(),rays,color,distance,3,13);
-        PointLight light3 = new PointLight(context.getRayHandler(),rays,color,distance,6,3);
-        PointLight light4 = new PointLight(context.getRayHandler(),rays,color,distance,6,13);
+        int distance = 5;
+        Color color = new Color(0.6f,0.6f,0.6f,1);
+        PointLight light1 = new PointLight(context.getRayHandler(),rays,color,distance,2,2);
+        PointLight light2 = new PointLight(context.getRayHandler(),rays,color,distance,2,14);
+        PointLight light3 = new PointLight(context.getRayHandler(),rays,color,distance,7,2);
+        PointLight light4 = new PointLight(context.getRayHandler(),rays,color,distance,7,14);
+        PointLight light5 = new PointLight(context.getRayHandler(),rays,color,distance+3,4.5f,8);
         lightArray.add(light1);
         lightArray.add(light2);
         lightArray.add(light3);
         lightArray.add(light4);
+        lightArray.add(light5);
         for(Light light:lightArray){
             light.setSoftnessLength(1);
             light.setSoft(true);
-
         }
         //light = new PointLight(context.getRayHandler(),2048,new Color(0,0,0,0.75f),8,4.5f,8);
         //light.setSoft(true);
-
+    }
+    public void createPlayerLight(){
+        //Player Light
+        playerLight = new PointLight(context.getRayHandler(),2048,new Color(0.5f,0.5f,0.5f,1f),6,context.getPlayer().getPlayerBody().getPosition().x,context.getPlayer().getPlayerBody().getPosition().y);
+        playerLight.attachToBody(context.getPlayer().getPlayerBody());
     }
 
     public void addRenderableEntity(RenderableEntity renderableEntity){
@@ -110,6 +116,12 @@ public class GameRenderer {
         shapeRenderer.arc(x + width - radius, y + height - radius, radius, 0f, 90f);
         shapeRenderer.arc(x + radius, y + height - radius, radius, 90f, 90f);
     }*/
+    public void changeLightsColor(Color color){
+        for(Light light:lightArray){
+            light.setColor(color.r+0.25f,color.g+0.25f,color.b+0.25f,1);
+        }
+        //playerLight.setColor(color.r+0.15f,color.g+0.15f,color.b+0.15f,1);
+    }
 
         private void renderForeground() {
         Color color = context.getColorManager().currentColor;
