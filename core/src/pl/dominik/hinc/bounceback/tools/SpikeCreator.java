@@ -49,7 +49,7 @@ public class SpikeCreator implements Updatable{
                 pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
             }
         }
-        if (context.getScore() % 30 == 0 && context.getScore() != 0){
+        if (context.getScore() % 25 == 5 && context.getScore() != 0 && context.getScore() !=5){
             //context.getCamera().zoom = -context.getCamera().zoom;
             context.getWorld().setGravity(new Vector2(0,-9.81f));
             context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
