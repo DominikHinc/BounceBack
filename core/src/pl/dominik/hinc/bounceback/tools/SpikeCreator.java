@@ -2,8 +2,10 @@ package pl.dominik.hinc.bounceback.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import pl.dominik.hinc.bounceback.BounceBack;
+import pl.dominik.hinc.bounceback.entities.PlayerRemains;
 import pl.dominik.hinc.bounceback.entities.Spike;
 import pl.dominik.hinc.bounceback.enums.ScreenType;
 import pl.dominik.hinc.bounceback.enums.SpikeOrientation;
@@ -35,8 +37,27 @@ public class SpikeCreator implements Updatable{
         context.addOneScore();
         if(context.getScore() % 5 == 0 && context.getScore() != 0){
             context.getColorManager().defineNewRandoCurrentColor();
-            //context.getCamera().zoom = -context.getCamera().zoom;
 
+        }
+        if(context.getScore() % 25 == 0 && context.getScore() != 0){
+            //context.getCamera().zoom = -context.getCamera().zoom;
+            context.getWorld().setGravity(new Vector2(0,9.81f));
+            context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),true);
+            context.getPlayer().setJumpForce(-context.getPlayer().getJumpForce());
+            context.getGameScreen().getGameUI().setRotation(180);
+            for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
+                pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
+            }
+        }
+        if (context.getScore() % 30 == 0 && context.getScore() != 0){
+            //context.getCamera().zoom = -context.getCamera().zoom;
+            context.getWorld().setGravity(new Vector2(0,-9.81f));
+            context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
+            context.getPlayer().setJumpForce(Math.abs(context.getPlayer().getJumpForce()));
+            context.getGameScreen().getGameUI().setRotation(0);
+            for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
+                pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
+            }
         }
         //Gdx.app.debug("Spike creator",Integer.toString(context.getScore()));
     }

@@ -22,8 +22,8 @@ public class GameScreen extends AbstractScreen {
     private boolean inMenu;
 
     //TEST
-    private Body body;
-    private Fixture fixture;
+    //rivate Body body;
+    //private Fixture fixture;
 
     public GameScreen(BounceBack context) {
         super(context);
@@ -46,7 +46,7 @@ public class GameScreen extends AbstractScreen {
 
     }
 
-    private void createDebug() {
+    /*private void createDebug() {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(250f,250f);
         //CircleShape shape = new CircleShape();
@@ -69,7 +69,7 @@ public class GameScreen extends AbstractScreen {
         Color color = new Color(1f,1f,1f,1);
         PointLight light2 = new PointLight(context.getRayHandler(),rays,color,distance,context.getScreenViewport().getWorldWidth()/4,context.getScreenViewport().getWorldHeight()/4);
         PointLight light1 = new PointLight(context.getRayHandler(),rays,color,distance,context.getScreenViewport().getWorldWidth()-context.getScreenViewport().getWorldWidth()/4,context.getScreenViewport().getWorldHeight()- context.getScreenViewport().getWorldHeight()/4);
-    }
+    }*/
 
     public void setInMenu(){
         //context.setPaused(true);
@@ -120,6 +120,10 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void dispose() {
 
+    }
+
+    public GameUI getGameUI() {
+        return gameUI;
     }
 
     public boolean isInMenu() {

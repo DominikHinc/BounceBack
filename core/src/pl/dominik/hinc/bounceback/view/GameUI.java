@@ -37,7 +37,7 @@ public class GameUI extends Table implements Updatable {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 blank();
-                context.setScore(0);
+                context.setScore(24);
                 context.getGameScreen().startGame();
                 context.getPlayer().getPlayerBody().setActive(true);
             }
@@ -77,5 +77,11 @@ public class GameUI extends Table implements Updatable {
         if(context.getGameScreen().isInMenu()){
             highScoreLabel.setText("[Current]"+highScoreLabel.getText());
         }
+        /*if(context.getScore() % 25 == 0 && context.getScore() != 0){
+            this.rotateBy(180);
+        }
+        if (context.getScore() % 30 == 0 && context.getScore() != 0){
+            this.rotateBy(180);
+        }*/
     }
 }

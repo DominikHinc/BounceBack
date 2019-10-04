@@ -76,6 +76,7 @@ public class GameRenderer {
     public void render(){
         //FPS
         //fpsLabel.setText(Gdx.graphics.getFramesPerSecond());
+        //update();
         shapeRenderer.setProjectionMatrix(context.getScreenViewport().getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         renderBackGround();
@@ -116,6 +117,14 @@ public class GameRenderer {
         shapeRenderer.arc(x + width - radius, y + height - radius, radius, 0f, 90f);
         shapeRenderer.arc(x + radius, y + height - radius, radius, 90f, 90f);
     }*/
+    private void update(){
+        if (context.getScore() % 25 == 0){
+            context.getCamera().zoom = -context.getCamera().zoom;
+        }
+        if (context.getScore() % 30 == 0){
+            context.getCamera().zoom = -context.getCamera().zoom;
+        }
+    }
     public void changeLightsColor(Color color){
         for(Light light:lightArray){
             light.setColor(color.r+0.25f,color.g+0.25f,color.b+0.25f,1);

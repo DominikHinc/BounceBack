@@ -55,4 +55,8 @@ public class PlayerRemains implements Collidable, RenderableEntity {
         //Gdx.app.debug("Player Remain:", Float.toString(t.getRotation()*MathUtils.radiansToDegrees));
         sprite.draw(spriteBatch);
     }
+
+    public Body getRemainBody() {
+        return remainBody;
+    }
 }

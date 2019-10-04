@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 
 import box2dLight.ConeLight;
 import box2dLight.DirectionalLight;
@@ -30,11 +31,14 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     private Sprite playerSprite;
     private float playerDiameter = 0.5f;
     private float texturePlusSize = 0.1f;
+    private float jumpForce = 2.5f;
     private float degrees;
+    private Array<PlayerRemains> playerRemainsArray;
 
     public Player(BounceBack context){
         this.context = context;
         playerVeloBeforeDead = new Vector2();
+        playerRemainsArray = new Array<>();
     }
 
     public void createPlayerBody(){
@@ -108,7 +112,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
                 BounceBack.BODY_DEF.position.set(new Vector2(posA,posB));
                 BounceBack.BODY_DEF.linearVelocity.set(playerVeloBeforeDead.x+i* MathUtils.random(10f),playerVeloBeforeDead.y+j* MathUtils.random(10f));
                 shape.setAsBox(remainConst/3,remainConst/3,new Vector2(0,0),0);
-                new PlayerRemains(playerPos,context,i,j,remainConst,degrees);
+                playerRemainsArray.add(new PlayerRemains(playerPos,context,i,j,remainConst,degrees));
 
             }
         }
@@ -134,16 +138,8 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     @Override
     public void update() {
         if(isDead){
-            createDeadPlayerRemainings(playerBody.getPosition());
-            playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
-            playerBody.setLinearVelocity(2.5f,0);
-            int temp = context.getScore();
-            context.setScore(-1);
-            context.getSpikeCreator().updateSpikes();
-            context.setScore(temp);
-            //context.getWorld().destroyBody(playerBody);
-            //playerBody = null;
-            isDead = false;
+            doThingAfterDeath();
+
         }
         if(playerBody != null){
             if (Gdx.input.isKeyPressed(Input.Keys.PLUS)){
@@ -175,12 +171,12 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             }
             if(context.getSpikeCreator().isGoRight()){
                 playerBody.setLinearVelocity(2.5f,playerBody.getLinearVelocity().y);
-                playerSprite.setFlip(false,false);
+                playerSprite.setFlip(false,playerSprite.isFlipY());
                 playerBody.setTransform(playerBody.getPosition(),0);
                 //playerLight.setDirection(0);
             }else if(context.getSpikeCreator().isGoRight() == false){
                 playerBody.setLinearVelocity(-2.5f,playerBody.getLinearVelocity().y);
-                playerSprite.setFlip(true,false);
+                playerSprite.setFlip(true,playerSprite.isFlipY());
                 playerBody.setTransform(playerBody.getPosition(),MathUtils.PI);
                 //playerLight.setDirection(0);
             }
@@ -193,6 +189,30 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
 
     }
 
+    private void doThingAfterDeath() {
+        //TODO move it somewhere where it will be more suitable
+        createDeadPlayerRemainings(playerBody.getPosition());
+        playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
+        playerBody.setLinearVelocity(2.5f,0);
+        int temp = context.getScore();
+        context.setScore(-1);
+        context.getSpikeCreator().updateSpikes();
+        context.setScore(temp);
+        //context.getWorld().destroyBody(playerBody);
+        //playerBody = null;
+        if (context.getWorld().getGravity().y > 0){
+            context.getWorld().setGravity(new Vector2(0,-9.81f));
+            context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
+            context.getPlayer().setJumpForce(Math.abs(jumpForce));
+            context.getGameScreen().getGameUI().setRotation(0);
+            for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
+                pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
+            }
+        }
+
+        isDead = false;
+    }
+
     public boolean isDead() {
         return isDead;
     }
@@ -201,18 +221,34 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         isDead = dead;
     }
 
+    public Sprite getPlayerSprite() {
+        return playerSprite;
+    }
+
     @Override
     public void touchDown(int screenX, int screenY, int pointer, int button) {
 
         if(!context.isPaused()){
             if(!context.getGameScreen().isInMenu()){
-                playerBody.applyLinearImpulse(new Vector2(0,2.5f),playerBody.getWorldCenter(),true);
+                playerBody.applyLinearImpulse(new Vector2(0,jumpForce),playerBody.getWorldCenter(),true);
             }
         }
 
     }
 
+    public float getJumpForce() {
+        return jumpForce;
+    }
+
+    public void setJumpForce(float jumpForce) {
+        this.jumpForce = jumpForce;
+    }
+
     public Body getPlayerBody() {
         return playerBody;
+    }
+
+    public Array<PlayerRemains> getPlayerRemainsArray() {
+        return playerRemainsArray;
     }
 }
