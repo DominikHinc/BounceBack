@@ -22,8 +22,11 @@ public class GameRenderer {
     private ShapeRenderer shapeRenderer;
     private RayHandler rayHandler;
     private Label fpsLabel;
+    //Light
     private Array<Light> lightArray;
     private PointLight playerLight;
+    int rays = 1024;
+    int distance = 5;
     public GameRenderer(BounceBack context){
         this.context = context;
         this.spriteBatch = context.getBatch();
@@ -38,8 +41,7 @@ public class GameRenderer {
     }
     public void createLights(){
         lightArray = new Array<>();
-        int rays = 2048;
-        int distance = 5;
+
         Color color = new Color(0.6f,0.6f,0.6f,1);
         PointLight light1 = new PointLight(context.getRayHandler(),rays,color,distance,2,2);
         PointLight light2 = new PointLight(context.getRayHandler(),rays,color,distance,2,14);
@@ -60,7 +62,7 @@ public class GameRenderer {
     }
     public void createPlayerLight(){
         //Player Light
-        playerLight = new PointLight(context.getRayHandler(),2048,new Color(0.5f,0.5f,0.5f,1f),6,context.getPlayer().getPlayerBody().getPosition().x,context.getPlayer().getPlayerBody().getPosition().y);
+        playerLight = new PointLight(context.getRayHandler(),rays,new Color(0.5f,0.5f,0.5f,1f),distance+1,context.getPlayer().getPlayerBody().getPosition().x,context.getPlayer().getPlayerBody().getPosition().y);
         playerLight.attachToBody(context.getPlayer().getPlayerBody());
     }
 
@@ -76,7 +78,7 @@ public class GameRenderer {
     public void render(){
         //FPS
         //fpsLabel.setText(Gdx.graphics.getFramesPerSecond());
-        //update();
+        //addChance();
         shapeRenderer.setProjectionMatrix(context.getScreenViewport().getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         renderBackGround();

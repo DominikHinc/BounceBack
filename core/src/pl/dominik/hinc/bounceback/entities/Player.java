@@ -205,9 +205,9 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
             context.getPlayer().setJumpForce(Math.abs(jumpForce));
             context.getGameScreen().getGameUI().setRotation(0);
-            for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
-                pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
-            }
+            //for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
+              //  pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
+           // }
         }
 
         isDead = false;

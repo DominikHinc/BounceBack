@@ -1,6 +1,5 @@
 package pl.dominik.hinc.bounceback.tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -40,7 +39,8 @@ public class Box2DWorldManager implements Updatable {
                 if(fixture.getUserData() instanceof Player){
                     context.getSpikeCreator().setGoRight(false);
                     context.getSpikeCreator().updateSpikes();
-                    Gdx.app.debug("Sesor","Go right " + context.getSpikeCreator().isGoRight());
+                    context.getPowerUpManager().addChance();
+                   // Gdx.app.debug("Sesor","Go right " + context.getSpikeCreator().isGoRight());
                 }
 
             }
@@ -54,7 +54,8 @@ public class Box2DWorldManager implements Updatable {
                 if(fixture.getUserData() instanceof Player) {
                     context.getSpikeCreator().setGoRight(true);
                     context.getSpikeCreator().updateSpikes();
-                    Gdx.app.debug("Sesor", "Go right " + context.getSpikeCreator().isGoRight());
+                    context.getPowerUpManager().addChance();
+                   // Gdx.app.debug("Sesor", "Go right " + context.getSpikeCreator().isGoRight());
                 }
             }
         });

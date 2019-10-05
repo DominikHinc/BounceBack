@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import box2dLight.RayHandler;
 import pl.dominik.hinc.bounceback.entities.Player;
 import pl.dominik.hinc.bounceback.enums.ScreenType;
+import pl.dominik.hinc.bounceback.powerups.PowerUpManager;
 import pl.dominik.hinc.bounceback.screens.AbstractScreen;
 import pl.dominik.hinc.bounceback.screens.GameScreen;
 import pl.dominik.hinc.bounceback.tools.*;
@@ -42,6 +43,7 @@ public class BounceBack extends Game {
 	public static final short WALL_BIT = 1 << 1;
 	public static final short SPIKE_BIT = 1 << 2;
 	public static final short OTHER_OBJECT_BIT = 1 << 3;
+	public static final short POWERUP_BIT = 1 << 4;
 
 	public static float TOP_LEDGE;
 	public static float LEFT_LEDGE;
@@ -82,6 +84,8 @@ public class BounceBack extends Game {
 	//Preferences
 	private Preferences preferences;
 	public final static String HIGHSCOREPREFS = "HIGH_SCORE_SAVE";
+
+	private PowerUpManager powerUpManager;
 
 	
 	@Override
@@ -127,11 +131,14 @@ public class BounceBack extends Game {
 		player = new Player(this);
 		//GameRenderer
 		gameRenderer = new GameRenderer(this);
+		//Preferences
+		preferences = Gdx.app.getPreferences("BounceBack Save");
+		//PowerUps
+		powerUpManager = new PowerUpManager(this);
 		//Screen Related Code
 		screenCashe = new EnumMap<ScreenType, AbstractScreen>(ScreenType.class);
 		setScreen(ScreenType.LOADING);
-		//Preferences
-		preferences = Gdx.app.getPreferences("BounceBack Save");
+
 
 	}
 
@@ -175,7 +182,7 @@ public class BounceBack extends Game {
 		stage.getViewport().apply();
 		stage.act();
 		stage.draw();
-		//b2dDebugRenderer.render(world,screenViewport.getCamera().combined);
+		b2dDebugRenderer.render(world,screenViewport.getCamera().combined);
 
 
 	}
@@ -255,6 +262,10 @@ public class BounceBack extends Game {
 			Gdx.app.debug(TAG, "Switching to screen:" + screenType);
 			setScreen(screen);
 		}
+	}
+
+	public PowerUpManager getPowerUpManager() {
+		return powerUpManager;
 	}
 
 	public Preferences getPreferences() {

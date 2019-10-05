@@ -45,9 +45,9 @@ public class SpikeCreator implements Updatable{
             context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),true);
             context.getPlayer().setJumpForce(-context.getPlayer().getJumpForce());
             context.getGameScreen().getGameUI().setRotation(180);
-            for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
-                pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
-            }
+            //for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
+               // pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
+           // }
         }
         if (context.getScore() % 25 == 5 && context.getScore() != 0 && context.getScore() !=5){
             //context.getCamera().zoom = -context.getCamera().zoom;
@@ -55,9 +55,9 @@ public class SpikeCreator implements Updatable{
             context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
             context.getPlayer().setJumpForce(Math.abs(context.getPlayer().getJumpForce()));
             context.getGameScreen().getGameUI().setRotation(0);
-            for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
-                pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
-            }
+           // for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
+                //pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
+           // }
         }
         //Gdx.app.debug("Spike creator",Integer.toString(context.getScore()));
     }
