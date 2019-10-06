@@ -17,6 +17,7 @@ import box2dLight.DirectionalLight;
 import box2dLight.Light;
 import box2dLight.PointLight;
 import pl.dominik.hinc.bounceback.BounceBack;
+import pl.dominik.hinc.bounceback.enums.SpikeOrientation;
 import pl.dominik.hinc.bounceback.tools.Collidable;
 import pl.dominik.hinc.bounceback.tools.InputListener;
 import pl.dominik.hinc.bounceback.tools.RenderableEntity;
@@ -29,11 +30,14 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     private boolean isDead = false;
     private Vector2 playerVeloBeforeDead;
     private Sprite playerSprite;
-    private float playerDiameter = 0.5f;
-    private float texturePlusSize = 0.1f;
+    public final float playerDiameter = 0.5f;
+    public final float texturePlusSize = 0.1f;
     private float jumpForce = 2.5f;
     private float degrees;
     private Array<PlayerRemains> playerRemainsArray;
+
+    //PowerUp Bools
+    private boolean isShielded = false;
 
     public Player(BounceBack context){
         this.context = context;
@@ -89,9 +93,18 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     @Override
     public void handleCollision(Fixture fixture) {
         if(fixture.getUserData() instanceof Spike){
-            Gdx.app.debug("Player","Game Over");
-            isDead = true;
-            playerVeloBeforeDead = playerBody.getLinearVelocity();
+            if(isShielded){
+                //isShielded = false;
+                if(((Spike) fixture.getUserData()).getSpikeOrientation() == SpikeOrientation.LEFT || ((Spike) fixture.getUserData()).getSpikeOrientation() == SpikeOrientation.RIGHT ) {
+                    ((Spike) fixture.getUserData()).setToDestroy(true);
+                }
+                context.getSpikeCreator().setUpdateOneSpike(true);
+            }else{
+                Gdx.app.debug("Player","Game Over");
+                isDead = true;
+                playerVeloBeforeDead = playerBody.getLinearVelocity();
+            }
+
         }
     }
     private void createDeadPlayerRemainings(Vector2 playerPos){
@@ -209,8 +222,16 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
               //  pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
            // }
         }
-
+        context.getPowerUpManager().reset();
         isDead = false;
+    }
+
+    public boolean isShielded() {
+        return isShielded;
+    }
+
+    public void setShielded(boolean shielded) {
+        isShielded = shielded;
     }
 
     public boolean isDead() {

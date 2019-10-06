@@ -182,7 +182,7 @@ public class BounceBack extends Game {
 		stage.getViewport().apply();
 		stage.act();
 		stage.draw();
-		b2dDebugRenderer.render(world,screenViewport.getCamera().combined);
+		//b2dDebugRenderer.render(world,screenViewport.getCamera().combined);
 
 
 	}

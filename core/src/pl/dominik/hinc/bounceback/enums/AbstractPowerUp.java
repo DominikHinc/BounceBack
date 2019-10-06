@@ -1,6 +1,8 @@
 package pl.dominik.hinc.bounceback.enums;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -12,8 +14,9 @@ import pl.dominik.hinc.bounceback.BounceBack;
 import pl.dominik.hinc.bounceback.entities.Player;
 import pl.dominik.hinc.bounceback.powerups.PowerUp;
 import pl.dominik.hinc.bounceback.tools.Collidable;
+import pl.dominik.hinc.bounceback.tools.RenderableEntity;
 
-public abstract class AbstractPowerUp implements PowerUp, Collidable {
+public abstract class AbstractPowerUp implements PowerUp, Collidable, RenderableEntity {
     protected BounceBack context;
     protected Body body;
     protected Fixture fixture;
@@ -24,6 +27,8 @@ public abstract class AbstractPowerUp implements PowerUp, Collidable {
     private Vector2 downMoveBorder;
     private boolean goUp = true;
     private Vector2 velocity;
+    protected float boxSize = 0.4f;
+    protected Sprite powerUpSprite;
 
     public AbstractPowerUp(BounceBack context){
         this.context = context;
@@ -31,6 +36,7 @@ public abstract class AbstractPowerUp implements PowerUp, Collidable {
         upMoveBorder = new Vector2(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight() - context.getScreenViewport().getWorldHeight()/4);
         downMoveBorder = new Vector2(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/4);
         velocity = new Vector2(0,0);
+
     }
 
     public void spawn(){
@@ -42,7 +48,7 @@ public abstract class AbstractPowerUp implements PowerUp, Collidable {
 
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(0.2f,0.2f);
+        shape.setAsBox(boxSize/2,boxSize/2);
 
         BounceBack.FIXTURE_DEF.shape = shape;
         BounceBack.FIXTURE_DEF.isSensor = true;
@@ -57,15 +63,34 @@ public abstract class AbstractPowerUp implements PowerUp, Collidable {
         shape.dispose();
         context.resetFixtureAndBodyDef();
     }
+    protected void prepareTexture(Sprite sprite){
+        powerUpSprite = sprite;
+        powerUpSprite.setSize(boxSize,boxSize);
+        powerUpSprite.setOrigin(powerUpSprite.getWidth()/2,powerUpSprite.getHeight()/2);
+        context.getGameRenderer().addRenderableEntity(this);
+    }
 
     @Override
     public void handleCollision(Fixture fixture) {
         if (fixture.getUserData() instanceof Player){
-            destroyBody = true;
-            context.getPowerUpManager().isSpawned = false;
+            deletePowerUp();
             use();
         }
     }
+    public void deletePowerUp(){
+        powerUpSprite = null;
+        destroyBody = true;
+        context.getPowerUpManager().isSpawned = false;
+    }
+
+    @Override
+    public void render(SpriteBatch spriteBatch) {
+        if(body != null && powerUpSprite != null){
+            powerUpSprite.setPosition(body.getPosition().x - boxSize/2,body.getPosition().y - boxSize/2);
+            powerUpSprite.draw(spriteBatch);
+        }
+    }
+
     public boolean isToDestroy() {
         return destroyBody;
     }
@@ -93,6 +118,5 @@ public abstract class AbstractPowerUp implements PowerUp, Collidable {
                 goUp = true;
             }
         }
-        Gdx.app.debug("Move",Float.toString(body.getLinearVelocity().y));
     }
 }

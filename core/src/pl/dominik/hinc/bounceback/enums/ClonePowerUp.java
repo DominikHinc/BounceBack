@@ -14,7 +14,7 @@ public class ClonePowerUp extends AbstractPowerUp {
 
     @Override
     public void use() {
-        Gdx.app.debug("PoweUP","Used Clone");
+        Gdx.app.debug("PoweUP Spawn","Used Clone");
     }
 
     @Override

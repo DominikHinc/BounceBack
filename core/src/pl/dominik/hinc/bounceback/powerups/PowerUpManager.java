@@ -41,9 +41,14 @@ public class PowerUpManager implements Updatable {
         PowerUpType type = powerUpTypes.get(MathUtils.random(powerUpTypes.size-1));
         switch(type){
             case SHIELD:powerUp = new ShieldPowerUp(context);break;
-            case CLONE:powerUp = new ClonePowerUp(context);break;
+            case CLONE:powerUp = new ShieldPowerUp(context);break;
         }
         powerUp.spawn();
+    }
+    public void reset(){
+        if(isSpawned && powerUp != null){
+            powerUp.deletePowerUp();
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ public class LoadingScreen extends AbstractScreen<LoadingUI> implements InputLis
         context.getInputManager().addListener(this);
         //Textures
         context.getAssetManager().load("BIRT.png", Texture.class);
+        context.getAssetManager().load("Shield.png",Texture.class);
 
     }
 

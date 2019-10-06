@@ -83,6 +83,7 @@ public class GameRenderer {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         renderBackGround();
         renderForeground();
+
         //shapeRenderer.end();
         //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         for (Spike spike: context.getSpikeCreator().getCurrentSpikes()){
@@ -93,6 +94,13 @@ public class GameRenderer {
         }
         //roundedRect(2,2,1,1,0.2f);
         shapeRenderer.end();
+        if(context.getPlayer().isShielded()){
+            Gdx.gl20.glLineWidth(4);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            renderShield();
+            shapeRenderer.end();
+            Gdx.gl20.glLineWidth(1);
+        }
         spriteBatch.begin();
         for(RenderableEntity renderableEntity: renderableEntities){
             if(renderableEntity != null){
@@ -103,6 +111,14 @@ public class GameRenderer {
         rayHandler.setCombinedMatrix(context.getCamera());
         rayHandler.updateAndRender();
     }
+
+    private void renderShield() {
+
+        shapeRenderer.setColor(0f,1f,1f,0.65f);
+        shapeRenderer.circle(context.getPlayer().getPlayerBody().getPosition().x,context.getPlayer().getPlayerBody().getPosition().y,context.getPlayer().playerDiameter+context.getPlayer().texturePlusSize,50);
+
+    }
+
     /*public void roundedRect(float x, float y, float width, float height, float radius) {
         // Central rectangle
         shapeRenderer.rect(x + radius, y + radius, width - 2 * radius, height - 2 * radius);

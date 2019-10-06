@@ -21,12 +21,15 @@ public class Spike implements Collidable {
     private Body spikeBody;
     private Fixture spikeFixture;
     private float[] vertecies;
+    private boolean toDestroy = false;
+    private SpikeOrientation spikeOrientation;
 
     //15 rows
     public Spike(int row, BounceBack context, SpikeOrientation spikeOrientation){
         this.context = context;
         this.row = row;
         shape = new ChainShape();
+        this.spikeOrientation = spikeOrientation;
         switch (spikeOrientation){
             case UP: vertecies = createBottomOrTop(false);break;
             case DOWN: vertecies = createBottomOrTop(true);break;
@@ -51,9 +54,12 @@ public class Spike implements Collidable {
     }
 
     public void render(ShapeRenderer shapeRenderer) {
-        Color color = context.getColorManager().currentColor;
-        shapeRenderer.setColor(color.r+0.35f,color.g+0.35f,color.b+0.35f,color.a+0.15f);
-        shapeRenderer.triangle(vertecies[0],vertecies[1],vertecies[2],vertecies[3],vertecies[4],vertecies[5]);
+        if(toDestroy == false){
+            Color color = context.getColorManager().currentColor;
+            shapeRenderer.setColor(color.r+0.35f,color.g+0.35f,color.b+0.35f,color.a+0.15f);
+            shapeRenderer.triangle(vertecies[0],vertecies[1],vertecies[2],vertecies[3],vertecies[4],vertecies[5]);
+        }
+
 
     }
     private float[] createBottomOrTop(boolean bottom){
@@ -82,6 +88,22 @@ public class Spike implements Collidable {
         }
         return new float[]{ledge,row-height,ledge,row+height,ledge+width,row,ledge,row-height};
     }
+    @Override
+    public void handleCollision(Fixture fixture) {
+
+    }
+
+    public SpikeOrientation getSpikeOrientation() {
+        return spikeOrientation;
+    }
+
+    public boolean isToDestroy() {
+        return toDestroy;
+    }
+
+    public void setToDestroy(boolean toDestroy) {
+        this.toDestroy = toDestroy;
+    }
 
     public Body getSpikeBody() {
         return spikeBody;
@@ -91,10 +113,6 @@ public class Spike implements Collidable {
         return vertecies;
     }
 
-    @Override
-    public void handleCollision(Fixture fixture) {
-
-    }
 
 
 }

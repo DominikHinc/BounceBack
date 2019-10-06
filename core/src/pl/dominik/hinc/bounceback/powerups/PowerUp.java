@@ -8,4 +8,5 @@ public interface PowerUp {
     public boolean isToDestroy();
     public Body getBody();
     public void move();
+    public void deletePowerUp();
 }

@@ -20,6 +20,7 @@ public class SpikeCreator implements Updatable{
     private Array<Integer> currentSpikeRows;
     public boolean timeToUpdateSpikes = false;
     private SpikeOrientation currentSpikeOrientation;
+    private boolean updateOneSpike = false;
 
     public SpikeCreator(BounceBack context){
         this.context = context;
@@ -63,6 +64,15 @@ public class SpikeCreator implements Updatable{
     }
     @Override
     public void update() {
+        if(updateOneSpike){
+            for(Spike spike: currentSpikes){
+                if(spike.isToDestroy()){
+                    spike.getSpikeBody().setActive(false);
+                }
+            }
+            updateOneSpike = false;
+            context.getPlayer().setShielded(false);
+        }
         if(timeToUpdateSpikes){
             timeToUpdateSpikes = false;
             //Clear Old Spikes
@@ -140,7 +150,7 @@ public class SpikeCreator implements Updatable{
         this.goRight = goRight;
     }
 
-
-
-
+    public void setUpdateOneSpike(boolean updateOneSpike) {
+        this.updateOneSpike = updateOneSpike;
+    }
 }
