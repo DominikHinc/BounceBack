@@ -36,24 +36,28 @@ public class SpikeCreator implements Updatable{
     public void updateSpikes(){
         timeToUpdateSpikes = true;
         context.addOneScore();
+        //Color Change
         if(context.getScore() % 5 == 0 && context.getScore() != 0){
             context.getColorManager().defineNewRandoCurrentColor();
-
         }
-        if(context.getScore() % 25 == 0 && context.getScore() != 0){
+        //UpsideDown View
+        if(context.getScore() % 25 == 0 && context.getScore() != 0) {
             //context.getCamera().zoom = -context.getCamera().zoom;
-            context.getWorld().setGravity(new Vector2(0,9.81f));
-            context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),true);
+            context.getWorld().setGravity(new Vector2(0, 9.81f));
+            //context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(), true);
+            context.setReverseSprites(true);
             context.getPlayer().setJumpForce(-context.getPlayer().getJumpForce());
             context.getGameScreen().getGameUI().setRotation(180);
             //for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
-               // pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
-           // }
+            // pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
+            // }
         }
+        //Back To normal View
         if (context.getScore() % 25 == 5 && context.getScore() != 0 && context.getScore() !=5){
             //context.getCamera().zoom = -context.getCamera().zoom;
             context.getWorld().setGravity(new Vector2(0,-9.81f));
-            context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
+            //context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
+            context.setReverseSprites(false);
             context.getPlayer().setJumpForce(Math.abs(context.getPlayer().getJumpForce()));
             context.getGameScreen().getGameUI().setRotation(0);
            // for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
@@ -152,5 +156,9 @@ public class SpikeCreator implements Updatable{
 
     public void setUpdateOneSpike(boolean updateOneSpike) {
         this.updateOneSpike = updateOneSpike;
+    }
+
+    public Array<Integer> getCurrentSpikeRows() {
+        return currentSpikeRows;
     }
 }

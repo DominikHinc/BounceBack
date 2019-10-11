@@ -3,17 +3,8 @@ package pl.dominik.hinc.bounceback.powerups;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 
 import pl.dominik.hinc.bounceback.BounceBack;
-import pl.dominik.hinc.bounceback.entities.Player;
-import pl.dominik.hinc.bounceback.enums.AbstractPowerUp;
-import pl.dominik.hinc.bounceback.tools.Collidable;
 
 public class ShieldPowerUp extends AbstractPowerUp{
 

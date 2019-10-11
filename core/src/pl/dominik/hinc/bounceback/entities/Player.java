@@ -184,12 +184,12 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             }
             if(context.getSpikeCreator().isGoRight()){
                 playerBody.setLinearVelocity(2.5f,playerBody.getLinearVelocity().y);
-                playerSprite.setFlip(false,playerSprite.isFlipY());
+                playerSprite.setFlip(false,context.isReverseSprites());
                 playerBody.setTransform(playerBody.getPosition(),0);
                 //playerLight.setDirection(0);
             }else if(context.getSpikeCreator().isGoRight() == false){
                 playerBody.setLinearVelocity(-2.5f,playerBody.getLinearVelocity().y);
-                playerSprite.setFlip(true,playerSprite.isFlipY());
+                playerSprite.setFlip(true,context.isReverseSprites());
                 playerBody.setTransform(playerBody.getPosition(),MathUtils.PI);
                 //playerLight.setDirection(0);
             }
@@ -215,7 +215,8 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         //playerBody = null;
         if (context.getWorld().getGravity().y > 0){
             context.getWorld().setGravity(new Vector2(0,-9.81f));
-            context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
+            //context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
+            context.setReverseSprites(false);
             context.getPlayer().setJumpForce(Math.abs(jumpForce));
             context.getGameScreen().getGameUI().setRotation(0);
             //for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){

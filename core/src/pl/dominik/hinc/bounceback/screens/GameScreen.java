@@ -113,7 +113,7 @@ public class GameScreen extends AbstractScreen {
     public void update(){
         /*if(context.getUpdatableArray() != null){
             for (Updatable updatable:context.getUpdatableArray()){
-                updatable.addChance();
+                updatable.pointAdded();
             }
         }*/
     }

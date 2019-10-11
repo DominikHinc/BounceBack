@@ -1,4 +1,4 @@
-package pl.dominik.hinc.bounceback.enums;
+package pl.dominik.hinc.bounceback.powerups;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -87,6 +87,7 @@ public abstract class AbstractPowerUp implements PowerUp, Collidable, Renderable
     public void render(SpriteBatch spriteBatch) {
         if(body != null && powerUpSprite != null){
             powerUpSprite.setPosition(body.getPosition().x - boxSize/2,body.getPosition().y - boxSize/2);
+            powerUpSprite.setFlip(false,context.isReverseSprites());
             powerUpSprite.draw(spriteBatch);
         }
     }

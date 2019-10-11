@@ -2,10 +2,10 @@ package pl.dominik.hinc.bounceback.powerups;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import pl.dominik.hinc.bounceback.BounceBack;
-import pl.dominik.hinc.bounceback.enums.ClonePowerUp;
 import pl.dominik.hinc.bounceback.enums.PowerUpType;
 import pl.dominik.hinc.bounceback.tools.Updatable;
 
@@ -16,6 +16,11 @@ public class PowerUpManager implements Updatable {
     public boolean isSpawned = false;
     private boolean toSpawn = false;
     private Array<PowerUpType> powerUpTypes;
+    private int pointsToDelete = 0;
+    //Plus Five Power Up
+    public boolean usedPlusFive = false;
+    public boolean whilePlusFive = false;
+    public int pointsToGo = 0;
     public PowerUpManager(BounceBack context){
         this.context = context;
         context.addToUpdatableArray(this);
@@ -26,14 +31,30 @@ public class PowerUpManager implements Updatable {
 
     }
 
-    public void addChance(){
+    public void pointAdded(){
         if(isSpawned == false){
             Gdx.app.debug("PowerUpManager", "chance Added");
-            chance += 0.1f;
+            chance += 1.1f;
             if(chance > MathUtils.random(1f)){
                 toSpawn = true;
                 chance = 0;
             }
+        }else if(isSpawned){
+            pointsToDelete--;
+            if (pointsToDelete == 0){
+                powerUp.deletePowerUp();
+            }
+        }
+        //checking for plus five
+        if(whilePlusFive){
+            pointsToGo--;
+            if (pointsToGo == 0){
+                whilePlusFive = false;
+                context.getPlayer().getPlayerBody().setGravityScale(2);
+            }else{
+                usedPlusFive = true;
+            }
+
         }
     }
     public void spawnPowerUp(){
@@ -41,9 +62,10 @@ public class PowerUpManager implements Updatable {
         PowerUpType type = powerUpTypes.get(MathUtils.random(powerUpTypes.size-1));
         switch(type){
             case SHIELD:powerUp = new ShieldPowerUp(context);break;
-            case CLONE:powerUp = new ShieldPowerUp(context);break;
+            case PLUSFIVE:powerUp = new PlusFivePowerUp(context);break;
         }
         powerUp.spawn();
+        pointsToDelete = 3;
     }
     public void reset(){
         if(isSpawned && powerUp != null){
@@ -66,5 +88,32 @@ public class PowerUpManager implements Updatable {
             toSpawn = false;
             isSpawned = true;
         }
+        if(usedPlusFive){
+            usePlusFive();
+            usedPlusFive = false;
+        }
+        if (whilePlusFive){
+            addingFivePoints();
+        }
+    }
+
+    //Plus Five Power Up
+    private void addingFivePoints(){
+        context.getPlayer().getPlayerBody().setLinearVelocity(context.getSpikeCreator().isGoRight() ? 4f:-4f,0);
+        context.getPlayer().getPlayerBody().setGravityScale(0);
+    }
+
+    private void usePlusFive(){
+        int guessedNumber = MathUtils.random(2,14);
+        while(context.getSpikeCreator().getCurrentSpikeRows().contains(guessedNumber,false)){
+            guessedNumber = MathUtils.random(2,14);
+        }
+        Gdx.app.debug("PoweUP five",Integer.toString(guessedNumber));
+        context.getPlayer().getPlayerBody().setTransform(new Vector2(context.getSpikeCreator().isGoRight() ? 7:2,guessedNumber-context.getPlayer().playerDiameter/2),0);
+        if(whilePlusFive == false){
+            whilePlusFive = true;
+            pointsToGo = 5;
+        }
+
     }
 }

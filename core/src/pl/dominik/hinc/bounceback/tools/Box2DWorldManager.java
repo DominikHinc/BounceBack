@@ -39,7 +39,7 @@ public class Box2DWorldManager implements Updatable {
                 if(fixture.getUserData() instanceof Player){
                     context.getSpikeCreator().setGoRight(false);
                     context.getSpikeCreator().updateSpikes();
-                    context.getPowerUpManager().addChance();
+                    context.getPowerUpManager().pointAdded();
                    // Gdx.app.debug("Sesor","Go right " + context.getSpikeCreator().isGoRight());
                 }
 
@@ -54,7 +54,7 @@ public class Box2DWorldManager implements Updatable {
                 if(fixture.getUserData() instanceof Player) {
                     context.getSpikeCreator().setGoRight(true);
                     context.getSpikeCreator().updateSpikes();
-                    context.getPowerUpManager().addChance();
+                    context.getPowerUpManager().pointAdded();
                    // Gdx.app.debug("Sesor", "Go right " + context.getSpikeCreator().isGoRight());
                 }
             }

@@ -78,7 +78,7 @@ public class GameRenderer {
     public void render(){
         //FPS
         //fpsLabel.setText(Gdx.graphics.getFramesPerSecond());
-        //addChance();
+        //pointAdded();
         shapeRenderer.setProjectionMatrix(context.getScreenViewport().getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         renderBackGround();

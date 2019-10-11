@@ -73,12 +73,13 @@ public class BounceBack extends Game {
 	private InputManager inputManager;
 	private InputMultiplexer inputMultiplexer;
 	private GameRenderer gameRenderer;
-	public boolean reversePlayer = false;
+	//public boolean reversePlayer = false;
 	public boolean inGame = false;
 	private AssetManager assetManager;
 	private ColorManager colorManager;
 	private boolean paused = false;
 	private Texture currentBirdTexture;
+	private boolean reverseSprites = false;
 	private boolean isInGame = false;
 	private GameScreen gameScreen;
 	//Preferences
@@ -262,6 +263,14 @@ public class BounceBack extends Game {
 			Gdx.app.debug(TAG, "Switching to screen:" + screenType);
 			setScreen(screen);
 		}
+	}
+
+	public boolean isReverseSprites() {
+		return reverseSprites;
+	}
+
+	public void setReverseSprites(boolean reverseSprites) {
+		this.reverseSprites = reverseSprites;
 	}
 
 	public PowerUpManager getPowerUpManager() {
