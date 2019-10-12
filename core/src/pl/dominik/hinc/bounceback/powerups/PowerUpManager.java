@@ -21,6 +21,10 @@ public class PowerUpManager implements Updatable {
     public boolean usedPlusFive = false;
     public boolean whilePlusFive = false;
     public int pointsToGo = 0;
+    //Random Teleport
+    public boolean toTeleport = false;
+
+
     public PowerUpManager(BounceBack context){
         this.context = context;
         context.addToUpdatableArray(this);
@@ -34,7 +38,7 @@ public class PowerUpManager implements Updatable {
     public void pointAdded(){
         if(isSpawned == false){
             Gdx.app.debug("PowerUpManager", "chance Added");
-            chance += 1.1f;
+            chance += 0.1f;
             if(chance > MathUtils.random(1f)){
                 toSpawn = true;
                 chance = 0;
@@ -63,7 +67,10 @@ public class PowerUpManager implements Updatable {
         switch(type){
             case SHIELD:powerUp = new ShieldPowerUp(context);break;
             case PLUSFIVE:powerUp = new PlusFivePowerUp(context);break;
+            case SPIKE:powerUp = new SpikePowerDown(context);break;
+            case RANDOMTELEPORT:powerUp = new RandomTeleport(context);break;
         }
+
         powerUp.spawn();
         pointsToDelete = 3;
     }
@@ -95,6 +102,9 @@ public class PowerUpManager implements Updatable {
         if (whilePlusFive){
             addingFivePoints();
         }
+        if (toTeleport){
+            teleport();
+        }
     }
 
     //Plus Five Power Up
@@ -115,5 +125,12 @@ public class PowerUpManager implements Updatable {
             pointsToGo = 5;
         }
 
+    }
+    //Random Teleport
+    private void teleport(){
+        float randomX = MathUtils.random(0,1f) + (context.getSpikeCreator().isGoRight() ? 5f : 2f);
+        float randomY = MathUtils.random(4f,12f);
+        context.getPlayer().getPlayerBody().setTransform(new Vector2(randomX,randomY),context.getPlayer().getPlayerBody().getAngle());
+        toTeleport = false;
     }
 }

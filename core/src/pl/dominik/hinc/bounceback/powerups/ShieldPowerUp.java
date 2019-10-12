@@ -11,19 +11,11 @@ public class ShieldPowerUp extends AbstractPowerUp{
     public ShieldPowerUp(BounceBack context){
         super(context);
         prepareTexture(new Sprite(context.getAssetManager().get("Shield.png", Texture.class)));
-
     }
-    @Override
-    public void spawn(){
-        super.spawn();
-        Gdx.app.debug("PowerUp Spawn", "Shield");
-    }
-
 
 
     @Override
     public void use() {
-        Gdx.app.debug("PoweUP","Used Shield");
         context.getPlayer().setShielded(true);
     }
 

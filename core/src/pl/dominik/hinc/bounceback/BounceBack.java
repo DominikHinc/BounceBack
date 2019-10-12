@@ -44,6 +44,7 @@ public class BounceBack extends Game {
 	public static final short SPIKE_BIT = 1 << 2;
 	public static final short OTHER_OBJECT_BIT = 1 << 3;
 	public static final short POWERUP_BIT = 1 << 4;
+    public static final short LIGHT_BIT = 1 << 5;
 
 	public static float TOP_LEDGE;
 	public static float LEFT_LEDGE;
@@ -199,7 +200,6 @@ public class BounceBack extends Game {
 		skin.dispose();
 		currentBirdTexture.dispose();
 		rayHandler.dispose();
-
 	}
 	public void resetFixtureAndBodyDef(){
 		BODY_DEF.position.set(new Vector2(0,0));

@@ -48,6 +48,8 @@ public class GameRenderer {
         PointLight light3 = new PointLight(context.getRayHandler(),rays,color,distance,7,2);
         PointLight light4 = new PointLight(context.getRayHandler(),rays,color,distance,7,14);
         PointLight light5 = new PointLight(context.getRayHandler(),rays,color,distance+3,4.5f,8);
+        short maskBit = BounceBack.PLAYER_BIT | BounceBack.OTHER_OBJECT_BIT |BounceBack.SPIKE_BIT | BounceBack.WALL_BIT;
+        light5.setContactFilter(BounceBack.LIGHT_BIT,(short)1,maskBit);
         lightArray.add(light1);
         lightArray.add(light2);
         lightArray.add(light3);
@@ -119,7 +121,7 @@ public class GameRenderer {
 
     }
 
-    /*public void roundedRect(float x, float y, float width, float height, float radius) {
+    public void roundedRect(float x, float y, float width, float height, float radius) {
         // Central rectangle
         shapeRenderer.rect(x + radius, y + radius, width - 2 * radius, height - 2 * radius);
 
@@ -134,7 +136,7 @@ public class GameRenderer {
         shapeRenderer.arc(x + width - radius, y + radius, radius, 270f, 90f);
         shapeRenderer.arc(x + width - radius, y + height - radius, radius, 0f, 90f);
         shapeRenderer.arc(x + radius, y + height - radius, radius, 90f, 90f);
-    }*/
+    }
     private void update(){
         if (context.getScore() % 25 == 0){
             context.getCamera().zoom = -context.getCamera().zoom;
@@ -161,4 +163,7 @@ public class GameRenderer {
         shapeRenderer.rect(-50,-50,100,100);
     }
 
+    public ShapeRenderer getShapeRenderer() {
+        return shapeRenderer;
+    }
 }

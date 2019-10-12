@@ -21,7 +21,7 @@ public class PlayerRemains implements Collidable, RenderableEntity {
     private Sprite sprite;
     private float i;
     private float j;
-    public PlayerRemains(Vector2 playerPos, BounceBack context, float i, float j, float remainConst,float degrees){
+    public PlayerRemains(Vector2 playerPos, BounceBack context, float i, float j, float remainConst,float degrees,Texture texture){
         this.context = context;
         this.playerPos = playerPos;
         this.i = i;
@@ -34,7 +34,7 @@ public class PlayerRemains implements Collidable, RenderableEntity {
         if(context.getSpikeCreator().isGoRight()){
             sigoOfLeft = 1;
         }
-        sprite = new Sprite(context.getCurrentBirdTexture(),(int)(171 + 171*i/2*10*sigoOfLeft),(int)(171 + 171*j/2*10*-1),126,120);
+        sprite = new Sprite(texture,(int)(171 + 171*i/2*10*sigoOfLeft),(int)(171 + 171*j/2*10*-1),126,120);
         if(context.getSpikeCreator().isGoRight() == false){
             sprite.setFlip(true,false);
         }

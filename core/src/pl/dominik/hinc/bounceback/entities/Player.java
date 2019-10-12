@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -35,7 +37,9 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     private float jumpForce = 2.5f;
     private float degrees;
     private Array<PlayerRemains> playerRemainsArray;
-
+    //test
+    private Pixmap pixmap;
+    boolean textureWasCreated = false;
     //PowerUp Bools
     private boolean isShielded = false;
 
@@ -66,28 +70,22 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         playerBody.setLinearVelocity(2.5f,0);
         playerFixture.setUserData(this);
 
-        /*BounceBack.BODY_DEF.type = BodyDef.BodyType.KinematicBody;
-        BounceBack.BODY_DEF.position.set(new Vector2(3,7));
-        BounceBack.BODY_DEF.linearVelocity.set(1,0);
-
-        context.getWorld().createBody(BounceBack.BODY_DEF).createFixture(BounceBack.FIXTURE_DEF);*/
         context.resetFixtureAndBodyDef();
         shape.dispose();
         context.getInputManager().addListener(this);
-        prepareTexture();
+        prepareTexture(context.getCurrentBirdTexture());
         //Player Light
         context.getGameRenderer().createPlayerLight();
-        //playerLight = new PointLight(context.getRayHandler(),2048,new Color(0.4f,0.4f,0.4f,1f),5,playerBody.getPosition().x,playerBody.getPosition().y);
-        //playerLight.attachToBody(playerBody);
 
 
     }
 
-    private void prepareTexture() {
-        playerSprite = new Sprite(context.getCurrentBirdTexture());
+    private void prepareTexture(Texture texture) {
+        playerSprite = new Sprite(texture);
         playerSprite.setSize(playerDiameter +texturePlusSize, playerDiameter +texturePlusSize);
         playerSprite.setOrigin(playerSprite.getWidth()/2,playerSprite.getHeight()/2);
         context.getGameRenderer().addRenderableEntity(this);
+
     }
 
     @Override
@@ -125,7 +123,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
                 BounceBack.BODY_DEF.position.set(new Vector2(posA,posB));
                 BounceBack.BODY_DEF.linearVelocity.set(playerVeloBeforeDead.x+i* MathUtils.random(10f),playerVeloBeforeDead.y+j* MathUtils.random(10f));
                 shape.setAsBox(remainConst/3,remainConst/3,new Vector2(0,0),0);
-                playerRemainsArray.add(new PlayerRemains(playerPos,context,i,j,remainConst,degrees));
+                playerRemainsArray.add(new PlayerRemains(playerPos,context,i,j,remainConst,degrees,playerSprite.getTexture()));
 
             }
         }
@@ -134,6 +132,55 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     }
     public void render(SpriteBatch spriteBatch){
         if(playerSprite != null){
+            if(context.getScore()%5 == 0 && textureWasCreated == false){
+                if(!context.getCurrentBirdTexture().getTextureData().isPrepared()){
+                    context.getCurrentBirdTexture().getTextureData().prepare();
+                }
+                pixmap = context.getCurrentBirdTexture().getTextureData().consumePixmap();
+                for (int y = 0; y < pixmap.getHeight(); y++){
+                    for (int x = 0; x < pixmap.getWidth(); x++){
+                        Color c = context.getColorManager().currentColor;
+                        Color color = new Color();
+                        Color.rgba8888ToColor(color,pixmap.getPixel(x,y));
+                        float addedToCol = 0;
+                        if (color.r == 1 && color.g == 0 & color.b == 0){
+                            addedToCol = 0.2f;
+                            color.r = c.r + addedToCol;
+                            color.g = c.g + addedToCol;
+                            color.b = c.b + addedToCol;
+                            //Gdx.app.debug("Red","Yes");
+
+                        }else if(color.r == 0 && color.g == 0 & color.b == 1){
+                            addedToCol = 0.1f;
+                            color.r = c.r + addedToCol;
+                            color.g = c.g + addedToCol;
+                            color.b = c.b + addedToCol;
+                            //Gdx.app.debug("Blue","Yes");
+                        }else if(color.r == 0 && color.g == 1 & color.b == 0){
+                            addedToCol = 0.005f;
+                            color.r = c.r + addedToCol;
+                            color.g = c.g + addedToCol;
+                            color.b = c.b + addedToCol;
+                            //Gdx.app.debug("Green","Yes");
+                        }else if(color.r == 1 && color.g == 1 & color.b == 1){
+                            color = Color.WHITE;
+                            //Gdx.app.debug("White","Yes");
+                        }
+                        if(color.a != 0){
+                            color.a = 1;
+                            pixmap.setColor(color);
+                            pixmap.fillRectangle(x,y,1,1);
+                        }
+                    }
+                }
+
+                playerSprite.setTexture(new Texture(pixmap));
+                textureWasCreated = true;
+                pixmap.dispose();
+            }
+            if(context.getScore()%5 != 0){
+                textureWasCreated = false;
+            }
             playerSprite.setPosition(playerBody.getPosition().x - playerDiameter /2-texturePlusSize/2,playerBody.getPosition().y - playerDiameter /2-texturePlusSize/2);
             degrees = playerBody.getLinearVelocity().y * 5;
             if (playerBody.getLinearVelocity().y >= 0 && degrees > 50){
@@ -146,6 +193,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             }
             playerSprite.setRotation(degrees);
             playerSprite.draw(spriteBatch);
+
         }
     }
     @Override
@@ -272,5 +320,9 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
 
     public Array<PlayerRemains> getPlayerRemainsArray() {
         return playerRemainsArray;
+    }
+
+    public Pixmap getPixmap() {
+        return pixmap;
     }
 }

@@ -25,7 +25,7 @@ public abstract class AbstractPowerUp implements PowerUp, Collidable, Renderable
     public boolean destroyBody = false;
     private Vector2 upMoveBorder;
     private Vector2 downMoveBorder;
-    private boolean goUp = true;
+    protected boolean goUp = true;
     private Vector2 velocity;
     protected float boxSize = 0.4f;
     protected Sprite powerUpSprite;
@@ -81,6 +81,7 @@ public abstract class AbstractPowerUp implements PowerUp, Collidable, Renderable
         powerUpSprite = null;
         destroyBody = true;
         context.getPowerUpManager().isSpawned = false;
+        context.getGameRenderer().destroyRenderableEntity(this);
     }
 
     @Override
