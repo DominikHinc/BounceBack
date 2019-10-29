@@ -6,5 +6,6 @@ public enum PowerUpType {
     SHIELD,
     PLUSFIVE,
     SPIKE,
-    RANDOMTELEPORT
+    RANDOMTELEPORT,
+    WALLPOWERUP
 }

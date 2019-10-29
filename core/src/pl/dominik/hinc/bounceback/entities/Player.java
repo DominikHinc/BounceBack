@@ -93,6 +93,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         if(fixture.getUserData() instanceof Spike){
             if(isShielded){
                 //isShielded = false;
+                context.getParticleManager().setShieldDestroyed(true);
                 if(((Spike) fixture.getUserData()).getSpikeOrientation() == SpikeOrientation.LEFT || ((Spike) fixture.getUserData()).getSpikeOrientation() == SpikeOrientation.RIGHT ) {
                     ((Spike) fixture.getUserData()).setToDestroy(true);
                 }

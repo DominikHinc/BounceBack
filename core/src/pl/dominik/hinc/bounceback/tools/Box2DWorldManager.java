@@ -37,9 +37,7 @@ public class Box2DWorldManager implements Updatable {
             @Override
             public void handleCollision(Fixture fixture) {
                 if(fixture.getUserData() instanceof Player){
-                    context.getSpikeCreator().setGoRight(false);
-                    context.getSpikeCreator().updateSpikes();
-                    context.getPowerUpManager().pointAdded();
+                    wallTouched();
                    // Gdx.app.debug("Sesor","Go right " + context.getSpikeCreator().isGoRight());
                 }
 
@@ -52,9 +50,7 @@ public class Box2DWorldManager implements Updatable {
             @Override
             public void handleCollision(Fixture fixture) {
                 if(fixture.getUserData() instanceof Player) {
-                    context.getSpikeCreator().setGoRight(true);
-                    context.getSpikeCreator().updateSpikes();
-                    context.getPowerUpManager().pointAdded();
+                    wallTouched();
                    // Gdx.app.debug("Sesor", "Go right " + context.getSpikeCreator().isGoRight());
                 }
             }
@@ -89,6 +85,12 @@ public class Box2DWorldManager implements Updatable {
         });
         shape.dispose();
         context.resetFixtureAndBodyDef();
+    }
+
+    public void wallTouched(){
+        context.getSpikeCreator().setGoRight(!context.getSpikeCreator().isGoRight());
+        context.getSpikeCreator().updateSpikes();
+        context.getPowerUpManager().pointAdded();
     }
 
     @Override

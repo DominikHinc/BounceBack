@@ -2,6 +2,7 @@ package pl.dominik.hinc.bounceback.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -27,6 +28,9 @@ public class GameRenderer {
     private PointLight playerLight;
     int rays = 1024;
     int distance = 5;
+    //Particles
+
+
     public GameRenderer(BounceBack context){
         this.context = context;
         this.spriteBatch = context.getBatch();
@@ -35,6 +39,7 @@ public class GameRenderer {
         shapeRenderer = new ShapeRenderer();
         rayHandler = context.getRayHandler();
         createLights();
+
         //FPS DEBUG
         //fpsLabel = new Label("xd",context.getSkin());
         //context.getStage().addActor(fpsLabel);
@@ -83,17 +88,18 @@ public class GameRenderer {
         //pointAdded();
         shapeRenderer.setProjectionMatrix(context.getScreenViewport().getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderBackGround();
         renderForeground();
-
-        //shapeRenderer.end();
-        //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         for (Spike spike: context.getSpikeCreator().getCurrentSpikes()){
             spike.render(shapeRenderer);
         }
         for (Spike spike: context.getSpikeCreator().getTopAndBottomSpikes()){
             spike.render(shapeRenderer);
         }
+        renderBackGround();
+
+        //shapeRenderer.end();
+        //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
         //roundedRect(2,2,1,1,0.2f);
         shapeRenderer.end();
         if(context.getPlayer().isShielded()){
@@ -160,7 +166,10 @@ public class GameRenderer {
 
     private void renderBackGround() {
         shapeRenderer.setColor(context.getColorManager().currentColor);
-        shapeRenderer.rect(-50,-50,100,100);
+        shapeRenderer.rect(0,0,BounceBack.LEFT_LEDGE,BounceBack.TOP_LEDGE);
+        shapeRenderer.rect(0,0,9,BounceBack.BOTTOM_LEDGE);
+        shapeRenderer.rect(BounceBack.RIGHT_LEDGE,BounceBack.BOTTOM_LEDGE,BounceBack.LEFT_LEDGE,16-BounceBack.BOTTOM_LEDGE);
+        shapeRenderer.rect(0,BounceBack.TOP_LEDGE,9,BounceBack.BOTTOM_LEDGE);
     }
 
     public ShapeRenderer getShapeRenderer() {

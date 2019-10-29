@@ -21,8 +21,10 @@ public class PowerUpManager implements Updatable {
     public boolean usedPlusFive = false;
     public boolean whilePlusFive = false;
     public int pointsToGo = 0;
+    public boolean afterLastPlusfive = false;
     //Random Teleport
     public boolean toTeleport = false;
+
 
 
     public PowerUpManager(BounceBack context){
@@ -50,11 +52,15 @@ public class PowerUpManager implements Updatable {
             }
         }
         //checking for plus five
+        if (afterLastPlusfive){
+            afterLastPlusfive = false;
+        }
         if(whilePlusFive){
             pointsToGo--;
             if (pointsToGo == 0){
                 whilePlusFive = false;
                 context.getPlayer().getPlayerBody().setGravityScale(2);
+                afterLastPlusfive = true;
             }else{
                 usedPlusFive = true;
             }
@@ -69,8 +75,9 @@ public class PowerUpManager implements Updatable {
             case PLUSFIVE:powerUp = new PlusFivePowerUp(context);break;
             case SPIKE:powerUp = new SpikePowerDown(context);break;
             case RANDOMTELEPORT:powerUp = new RandomTeleport(context);break;
+            case WALLPOWERUP:powerUp = new WallPowerUp(context);break;
         }
-
+        //powerUp = new ShieldPowerUp(context);
         powerUp.spawn();
         pointsToDelete = 3;
     }

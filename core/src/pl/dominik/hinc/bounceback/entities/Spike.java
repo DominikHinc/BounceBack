@@ -23,6 +23,8 @@ public class Spike implements Collidable {
     private float[] vertecies;
     private boolean toDestroy = false;
     private SpikeOrientation spikeOrientation;
+    public float width = 0.43f;
+    public float height = 0.25f;
 
     //15 rows
     public Spike(int row, BounceBack context, SpikeOrientation spikeOrientation){
@@ -57,7 +59,17 @@ public class Spike implements Collidable {
         if(toDestroy == false){
             Color color = context.getColorManager().currentColor;
             shapeRenderer.setColor(color.r+0.35f,color.g+0.35f,color.b+0.35f,color.a+0.15f);
-            shapeRenderer.triangle(vertecies[0],vertecies[1],vertecies[2],vertecies[3],vertecies[4],vertecies[5]);
+            if (context.getSpikeCreator().isMovingSpikes() && context.getPowerUpManager().whilePlusFive == false && context.getPowerUpManager().afterLastPlusfive == false && (spikeOrientation == SpikeOrientation.LEFT || spikeOrientation == SpikeOrientation.RIGHT)){
+                    float d = context.getSpikeCreator().getAccumulator();
+                    float width = (context.getSpikeCreator().isGoRight()) ? this.width:-this.width;
+                    shapeRenderer.triangle(vertecies[0]+d+width,vertecies[1],vertecies[2]+d+width,vertecies[3],vertecies[4]+d+width,vertecies[5]);
+            }else{
+                shapeRenderer.triangle(vertecies[0],vertecies[1],vertecies[2],vertecies[3],vertecies[4],vertecies[5]);
+            }
+
+            //float ledge = (context.getSpikeCreator().isGoRight()) ? BounceBack.RIGHT_LEDGE : BounceBack.LEFT_LEDGE;
+           // Vector2 v = spikeBody.getPosition();
+           // shapeRenderer.triangle(v.x, v.y - height,v.x,v.y + height,v.x+ width,v.y);
         }
 
 
@@ -78,8 +90,8 @@ public class Spike implements Collidable {
     private float[] createLeftOrRight(boolean right){
 
         float ledge;
-        float width = 0.43f;
-        float height = 0.25f;
+        float width = this.width;
+
         if(right){
             ledge = BounceBack.RIGHT_LEDGE;
             width = -width;

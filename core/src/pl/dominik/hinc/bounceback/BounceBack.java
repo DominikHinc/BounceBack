@@ -89,6 +89,8 @@ public class BounceBack extends Game {
 
 	private PowerUpManager powerUpManager;
 
+	private ParticleManager particleManager;
+
 	
 	@Override
 	public void create () {
@@ -137,6 +139,8 @@ public class BounceBack extends Game {
 		preferences = Gdx.app.getPreferences("BounceBack Save");
 		//PowerUps
 		powerUpManager = new PowerUpManager(this);
+		//ParticleEffects
+		particleManager = new ParticleManager(this);
 		//Screen Related Code
 		screenCashe = new EnumMap<ScreenType, AbstractScreen>(ScreenType.class);
 		setScreen(ScreenType.LOADING);
@@ -263,6 +267,10 @@ public class BounceBack extends Game {
 			Gdx.app.debug(TAG, "Switching to screen:" + screenType);
 			setScreen(screen);
 		}
+	}
+
+	public ParticleManager getParticleManager() {
+		return particleManager;
 	}
 
 	public boolean isReverseSprites() {

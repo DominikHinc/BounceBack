@@ -21,6 +21,8 @@ public class SpikeCreator implements Updatable{
     public boolean timeToUpdateSpikes = false;
     private SpikeOrientation currentSpikeOrientation;
     private boolean updateOneSpike = false;
+    private boolean movingSpikes = false;
+    private float accumulator = -0.01f;
 
     public SpikeCreator(BounceBack context){
         this.context = context;
@@ -77,8 +79,26 @@ public class SpikeCreator implements Updatable{
             updateOneSpike = false;
             context.getPlayer().setShielded(false);
         }
+        if (movingSpikes){
+            float direction  = (goRight) ? -0.01f:0.01f;
+            accumulator += direction;
+            for (Spike spike: currentSpikes){
+                spike.getSpikeBody().setTransform(spike.getSpikeBody().getPosition().x+direction,spike.getSpikeBody().getPosition().y,0);
+            }
+            //Gdx.app.debug("Acc",Float.toString(accumulator));
+            if (accumulator >= 0.43f && goRight == false|| accumulator <= -0.43f && goRight == true){
+                Gdx.app.debug("Acc","=width");
+                movingSpikes = false;
+                accumulator = 0;
+            }
+
+        }
         if(timeToUpdateSpikes){
             timeToUpdateSpikes = false;
+            if (movingSpikes){
+                movingSpikes = false;
+                accumulator = 0;
+            }
             //Clear Old Spikes
             if(currentSpikes != null && !currentSpikes.isEmpty()){
                 for(Spike spike: currentSpikes){
@@ -96,8 +116,10 @@ public class SpikeCreator implements Updatable{
             }
             //Create First and Last spike
             Spike spike1 = new Spike(1,context,currentSpikeOrientation);
+            spike1.getSpikeBody().setTransform(spike1.getSpikeBody().getPosition().x + ((goRight) ? spike1.width : -spike1.width),spike1.getSpikeBody().getPosition().y,0);
             currentSpikes.add(spike1);
             Spike spike15 = new Spike(15,context,currentSpikeOrientation);
+            spike15.getSpikeBody().setTransform(spike15.getSpikeBody().getPosition().x + ((goRight) ? spike15.width : -spike15.width),spike15.getSpikeBody().getPosition().y,0);
             currentSpikes.add(spike15);
 
             //Create Array with random numbers
@@ -124,6 +146,10 @@ public class SpikeCreator implements Updatable{
                 if (currentSpikeRows.contains(i,false)){
                     Spike spike = new Spike(i,context,currentSpikeOrientation);
                     currentSpikes.add(spike);
+                    movingSpikes = true;
+                    accumulator = 0f;
+                    spike.getSpikeBody().setTransform(spike.getSpikeBody().getPosition().x + ((goRight) ? spike.width : -spike.width),spike.getSpikeBody().getPosition().y,0);
+
                 }
             }
         }
@@ -160,5 +186,13 @@ public class SpikeCreator implements Updatable{
 
     public Array<Integer> getCurrentSpikeRows() {
         return currentSpikeRows;
+    }
+
+    public float getAccumulator() {
+        return accumulator;
+    }
+
+    public boolean isMovingSpikes() {
+        return movingSpikes;
     }
 }
