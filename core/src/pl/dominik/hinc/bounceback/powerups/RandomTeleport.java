@@ -8,7 +8,7 @@ import pl.dominik.hinc.bounceback.BounceBack;
 public class RandomTeleport extends AbstractPowerUp {
     public RandomTeleport(BounceBack context) {
         super(context);
-        prepareTexture(new Sprite(context.getAssetManager().get("RandomTeleport.png", Texture.class)));
+        prepareTexture(new Sprite(context.getAssetManager().get("PowerUps/RandomTeleport.png", Texture.class)));
     }
 
     @Override

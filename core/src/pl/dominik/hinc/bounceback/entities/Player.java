@@ -115,7 +115,6 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         BounceBack.FIXTURE_DEF.filter.maskBits = BounceBack.WALL_BIT | BounceBack.SPIKE_BIT;
         BounceBack.FIXTURE_DEF.restitution = 0.1f;
         BounceBack.FIXTURE_DEF.shape =shape;
-
         float remainConst = 0.2f;
         for(float i = -remainConst; i<=remainConst; i+=remainConst){
             for(float j = -remainConst; j<=remainConst; j+=remainConst){
@@ -253,6 +252,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
 
     private void doThingAfterDeath() {
         //TODO move it somewhere where it will be more suitable
+        context.getParticleManager().playerDied(new Vector2(playerBody.getPosition()));
         createDeadPlayerRemainings(playerBody.getPosition());
         playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
         playerBody.setLinearVelocity(2.5f,0);

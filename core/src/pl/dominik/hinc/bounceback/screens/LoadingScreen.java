@@ -19,10 +19,10 @@ public class LoadingScreen extends AbstractScreen<LoadingUI> implements InputLis
     private void load() {
         context.getInputManager().addListener(this);
         //Textures
-        context.getAssetManager().load("BIRT.png", Texture.class);
-        context.getAssetManager().load("Shield.png",Texture.class);
-        context.getAssetManager().load("Five.png",Texture.class);
-        context.getAssetManager().load("RandomTeleport.png",Texture.class);
+        context.getAssetManager().load("Player/BIRT.png", Texture.class);
+        context.getAssetManager().load("PowerUps/Shield.png",Texture.class);
+        context.getAssetManager().load("PowerUps/Five.png",Texture.class);
+        context.getAssetManager().load("PowerUps/RandomTeleport.png",Texture.class);
         context.getParticleManager().loadParticles();
     }
 
@@ -48,7 +48,7 @@ public class LoadingScreen extends AbstractScreen<LoadingUI> implements InputLis
     public void touchDown(int screenX, int screenY, int pointer, int button) {
         if(context.getAssetManager().getProgress() == 1){
             context.getInputManager().destroyListener(this);
-            context.setCurrentBirdTexture(context.getAssetManager().get("BIRT.png", Texture.class));
+            context.setCurrentBirdTexture(context.getAssetManager().get("Player/BIRT.png", Texture.class));
             context.setScreen(ScreenType.GAME);
         }
     }

@@ -10,7 +10,7 @@ public class ShieldPowerUp extends AbstractPowerUp{
 
     public ShieldPowerUp(BounceBack context){
         super(context);
-        prepareTexture(new Sprite(context.getAssetManager().get("Shield.png", Texture.class)));
+        prepareTexture(new Sprite(context.getAssetManager().get("PowerUps/Shield.png", Texture.class)));
     }
 
 

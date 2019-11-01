@@ -12,7 +12,7 @@ public class PlusFivePowerUp extends AbstractPowerUp {
 
     public PlusFivePowerUp(BounceBack context) {
         super(context);
-        prepareTexture(new Sprite(context.getAssetManager().get("Five.png", Texture.class)));
+        prepareTexture(new Sprite(context.getAssetManager().get("PowerUps/Five.png", Texture.class)));
     }
 
     @Override
