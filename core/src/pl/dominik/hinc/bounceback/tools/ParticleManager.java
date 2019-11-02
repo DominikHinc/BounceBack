@@ -76,7 +76,8 @@ public class ParticleManager implements RenderableEntity{
 
         if (playerJump){
             playerJump = false;
-            playerJumpParticle.getEmitters().first().setPosition(currentPlayerPos.x,currentPlayerPos.y+context.getPlayer().playerDiameter/2);
+            int modifier = context.getUpsideDownViewManager().isUpsidedown() ? -1:1;
+            playerJumpParticle.getEmitters().first().setPosition(currentPlayerPos.x,currentPlayerPos.y+(context.getPlayer().playerDiameter/2*modifier));
             Color c = context.getColorManager().currentColor;
             playerJumpParticle.getEmitters().first().getTint().setColors(new float[]{c.r,c.g,c.b,c.a});
             playerJumpParticle.start();
@@ -85,7 +86,10 @@ public class ParticleManager implements RenderableEntity{
             playerJumpParticle.update(Gdx.graphics.getDeltaTime());
             playerJumpParticle.draw(spriteBatch);
         }
+    }
 
+    public void reverseParticleMotion(){
+        playerJumpParticle.getEmitters().first().scaleMotion(-1);
     }
 
     public void setShieldDestroyed(boolean shieldDestroyed) {

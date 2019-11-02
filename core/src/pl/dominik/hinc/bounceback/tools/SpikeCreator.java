@@ -38,34 +38,12 @@ public class SpikeCreator implements Updatable{
     public void updateSpikes(){
         timeToUpdateSpikes = true;
         context.addOneScore();
+        context.getUpsideDownViewManager().pointAdded();
         //Color Change
         if(context.getScore() % 5 == 0 && context.getScore() != 0){
             context.getColorManager().defineNewRandoCurrentColor();
         }
-        //UpsideDown View
-        if(context.getScore() % 25 == 0 && context.getScore() != 0) {
-            //context.getCamera().zoom = -context.getCamera().zoom;
-            context.getWorld().setGravity(new Vector2(0, 9.81f));
-            //context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(), true);
-            context.setReverseSprites(true);
-            context.getPlayer().setJumpForce(-context.getPlayer().getJumpForce());
-            context.getGameScreen().getGameUI().setRotation(180);
-            //for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
-            // pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
-            // }
-        }
-        //Back To normal View
-        if (context.getScore() % 25 == 5 && context.getScore() != 0 && context.getScore() !=5){
-            //context.getCamera().zoom = -context.getCamera().zoom;
-            context.getWorld().setGravity(new Vector2(0,-9.81f));
-            //context.getPlayer().getPlayerSprite().setFlip(context.getPlayer().getPlayerSprite().isFlipX(),false);
-            context.setReverseSprites(false);
-            context.getPlayer().setJumpForce(Math.abs(context.getPlayer().getJumpForce()));
-            context.getGameScreen().getGameUI().setRotation(0);
-           // for (PlayerRemains pl : context.getPlayer().getPlayerRemainsArray()){
-                //pl.getRemainBody().applyLinearImpulse(new Vector2(MathUtils.random(0.3f),MathUtils.random(0.3f)),pl.getRemainBody().getWorldCenter(),true);
-           // }
-        }
+
         //Gdx.app.debug("Spike creator",Integer.toString(context.getScore()));
     }
     @Override

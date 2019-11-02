@@ -91,6 +91,8 @@ public class BounceBack extends Game {
 
 	private ParticleManager particleManager;
 
+	private UpsideDownViewManager upsideDownViewManager;
+
 	
 	@Override
 	public void create () {
@@ -141,6 +143,8 @@ public class BounceBack extends Game {
 		powerUpManager = new PowerUpManager(this);
 		//ParticleEffects
 		particleManager = new ParticleManager(this);
+		//UpsideDownView
+		upsideDownViewManager = new UpsideDownViewManager(this);
 		//Screen Related Code
 		screenCashe = new EnumMap<ScreenType, AbstractScreen>(ScreenType.class);
 		setScreen(ScreenType.LOADING);
@@ -267,6 +271,10 @@ public class BounceBack extends Game {
 			Gdx.app.debug(TAG, "Switching to screen:" + screenType);
 			setScreen(screen);
 		}
+	}
+
+	public UpsideDownViewManager getUpsideDownViewManager() {
+		return upsideDownViewManager;
 	}
 
 	public ParticleManager getParticleManager() {
