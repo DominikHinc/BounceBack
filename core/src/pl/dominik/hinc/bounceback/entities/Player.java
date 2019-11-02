@@ -302,6 +302,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         if(!context.isPaused()){
             if(!context.getGameScreen().isInMenu()){
                 playerBody.applyLinearImpulse(new Vector2(0,jumpForce),playerBody.getWorldCenter(),true);
+                context.getParticleManager().playerJumpParticle(playerBody.getPosition());
             }
         }
 

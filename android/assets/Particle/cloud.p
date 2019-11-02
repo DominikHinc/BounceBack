@@ -40,7 +40,7 @@ active: false
 - Y Offset - 
 active: false
 - Spawn Shape - 
-shape: line
+shape: point
 - Spawn Width - 
 lowMin: 0.0
 lowMax: 0.0
@@ -67,10 +67,12 @@ lowMax: 0.0
 highMin: 16.0
 highMax: 16.0
 relative: false
-scalingCount: 1
+scalingCount: 2
 scaling0: 1.0
-timelineCount: 1
+scaling1: 0.37254903
+timelineCount: 2
 timeline0: 0.0
+timeline1: 1.0
 - Y Scale - 
 active: false
 - Velocity - 
@@ -107,9 +109,9 @@ active: false
 active: false
 - Tint - 
 colorsCount: 3
-colors0: 0.8784314
-colors1: 0.8784314
-colors2: 0.8784314
+colors0: 0.8039216
+colors1: 0.8039216
+colors2: 0.8039216
 timelineCount: 1
 timeline0: 0.0
 - Transparency - 
@@ -120,13 +122,13 @@ highMax: 1.0
 relative: false
 scalingCount: 4
 scaling0: 0.0
-scaling1: 0.5964912
-scaling2: 0.3508772
+scaling1: 0.33333334
+scaling2: 0.1754386
 scaling3: 0.0
 timelineCount: 4
 timeline0: 0.0
-timeline1: 0.21917808
-timeline2: 0.7671233
+timeline1: 0.2260274
+timeline2: 0.739726
 timeline3: 1.0
 - Options - 
 attached: false
@@ -134,7 +136,7 @@ continuous: false
 aligned: false
 additive: true
 behind: false
-premultipliedAlpha: false
+premultipliedAlpha: true
 spriteMode: single
 - Image Paths -
 Cloud.png
