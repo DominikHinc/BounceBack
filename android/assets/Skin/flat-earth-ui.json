@@ -167,7 +167,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	slider-horizontal-s: {
 		name: slider-horizontal
-		color: selection
+		color: white
 	}
 	slider-vertical-s: {
 		name: slider-vertical
@@ -316,10 +316,13 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: "font_169",
+		font: "font_169"
 	},
 	medium: {
-		font: "font_32",
+		font: "font_32"
+	},
+	logo: {
+		font: "font_128"
 	},
 	button: {
 		font: button
@@ -327,9 +330,9 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	}
 	title: {
 		font: title
-		fontColor: color
+		fontColor: white
 	}
-}
+},
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
 		font: font

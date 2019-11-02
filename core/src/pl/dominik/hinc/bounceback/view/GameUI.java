@@ -37,7 +37,7 @@ public class GameUI extends Table implements Updatable {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 blank();
-                context.setScore(24);
+                context.setScore(0);
                 context.getGameScreen().startGame();
                 context.getPlayer().getPlayerBody().setActive(true);
             }

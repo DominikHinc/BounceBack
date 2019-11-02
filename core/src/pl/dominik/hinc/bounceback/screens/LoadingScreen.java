@@ -2,8 +2,11 @@ package pl.dominik.hinc.bounceback.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
+
 import pl.dominik.hinc.bounceback.BounceBack;
 import pl.dominik.hinc.bounceback.enums.ScreenType;
 import pl.dominik.hinc.bounceback.tools.InputListener;
@@ -33,7 +36,8 @@ public class LoadingScreen extends AbstractScreen<LoadingUI> implements InputLis
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Color c = context.loadingColor;
+        Gdx.gl.glClearColor(c.r,c.g,c.b,c.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         context.getAssetManager().update();
         screenUI.setProgress(context.getAssetManager().getProgress());
@@ -41,7 +45,6 @@ public class LoadingScreen extends AbstractScreen<LoadingUI> implements InputLis
 
     @Override
     public void dispose() {
-
     }
 
     @Override
@@ -49,6 +52,8 @@ public class LoadingScreen extends AbstractScreen<LoadingUI> implements InputLis
         if(context.getAssetManager().getProgress() == 1){
             context.getInputManager().destroyListener(this);
             context.setCurrentBirdTexture(context.getAssetManager().get("Player/BIRT.png", Texture.class));
+            context.getColorManager().currentColor = context.loadingColor;
+            context.loadingColor = null;
             context.setScreen(ScreenType.GAME);
         }
     }

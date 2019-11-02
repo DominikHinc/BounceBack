@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -78,6 +79,7 @@ public class BounceBack extends Game {
 	public boolean inGame = false;
 	private AssetManager assetManager;
 	private ColorManager colorManager;
+	public Color loadingColor;
 	private boolean paused = false;
 	private Texture currentBirdTexture;
 	private boolean reverseSprites = false;
@@ -133,6 +135,7 @@ public class BounceBack extends Game {
 		prepareSkin();
 		//Colors
 		colorManager = new ColorManager(this);
+		loadingColor = new Color(MathUtils.random(0.5f),MathUtils.random(0.5f),MathUtils.random(0.5f),MathUtils.random(0.5f));
 		//Entities
 		player = new Player(this);
 		//GameRenderer
