@@ -63,7 +63,7 @@ com.badlogic.gdx.graphics.Color: {
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	button-c: {
 		name: button
-		color: color
+		color: white
 	}
 	button-close-c: {
 		name: button-close
@@ -75,7 +75,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	button-h: {
 		name: button
-		color: highlight
+		color: gray
 	}
 	checkbox-c: {
 		name: checkbox
@@ -215,7 +215,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	button-p: {
 		name: button
-		color: pressed
+		color: gray
 	}
 	slider-fancy-p: {
 		name: slider-fancy
@@ -286,11 +286,12 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 		font: button
 		fontColor: white
 		downFontColor: white
-		overFontColor: gray
+		overFontColor: white
 		up: button-c
 		down: button-p
 		over: button-h
-	}
+	},
+
 	check: {
 		imageUp: checkbox-c
 		imageDown: checkbox-pressed-p
@@ -417,8 +418,17 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: button-c
 		down: button-p
 		over: button-h
+	},
+	start: {
+		font: title,
+		fontColor: white
+		downFontColor: white
+		overFontColor: gray
+		up: button-c
+		down: button-p
+		over: button-h
 	}
-}
+},
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
 		font: font

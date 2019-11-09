@@ -192,6 +192,7 @@ public class BounceBack extends Game {
 
 		//Stage draw and Act
 		batch.setProjectionMatrix(stage.getCamera().combined);
+		//stage.setDebugAll(true);
 		stage.getViewport().apply();
 		stage.act();
 		stage.draw();
@@ -240,7 +241,7 @@ public class BounceBack extends Game {
 		fontParameter.minFilter = Texture.TextureFilter.Linear;
 		fontParameter.magFilter = Texture.TextureFilter.Linear;
 		fontParameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + ":";
-		final int[] sizesFont = {32,100,128,148,169};
+		final int[] sizesFont = {32,64,100,128,148,169};
 		for (int size:sizesFont){
 			fontParameter.size = size;
 			final BitmapFont bitmapFont = fontGenerator.generateFont(fontParameter);
