@@ -17,6 +17,7 @@ public class ShieldPowerUp extends AbstractPowerUp{
     @Override
     public void use() {
         context.getPlayer().setShielded(true);
+        context.getScoreBoardManager().addShields();
     }
 
 }

@@ -19,6 +19,7 @@ public class PlusFivePowerUp extends AbstractPowerUp {
     public void use() {
         Gdx.app.debug("PoweUP Spawn","Used Clone");
         context.getPowerUpManager().usedPlusFive = true;
+        context.getScoreBoardManager().addPlusFive();
     }
 
     @Override

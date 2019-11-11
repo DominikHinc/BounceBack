@@ -38,6 +38,7 @@ public class PowerUpManager implements Updatable {
     }
 
     public void pointAdded(){
+        context.getScoreBoardManager().addPoints();
         if(isSpawned == false){
             Gdx.app.debug("PowerUpManager", "chance Added");
             chance += 0.1f;
@@ -68,7 +69,8 @@ public class PowerUpManager implements Updatable {
         }
     }
     public void spawnPowerUp(){
-        Gdx.app.debug("PowerUpManager", "Spawn");
+        //Gdx.app.debug("PowerUpManager", "Spawn");
+        context.getScoreBoardManager().addPowerUps();
         PowerUpType type = powerUpTypes.get(MathUtils.random(powerUpTypes.size-1));
         switch(type){
             case SHIELD:powerUp = new ShieldPowerUp(context);break;

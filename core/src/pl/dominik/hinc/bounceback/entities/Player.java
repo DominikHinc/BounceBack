@@ -266,6 +266,8 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             context.getUpsideDownViewManager().setSpsideDownView(false);
         }
         context.getPowerUpManager().reset();
+        context.getScoreBoardManager().addDeaths();
+        context.getScoreBoardManager().flushPrefs();
         isDead = false;
     }
 
@@ -296,6 +298,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             if(!context.getGameScreen().isInMenu()){
                 playerBody.applyLinearImpulse(new Vector2(0,jumpForce),playerBody.getWorldCenter(),true);
                 context.getParticleManager().playerJumpParticle(playerBody.getPosition());
+                context.getScoreBoardManager().addJumps();
             }
         }
 

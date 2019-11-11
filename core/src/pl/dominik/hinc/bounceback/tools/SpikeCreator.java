@@ -43,7 +43,7 @@ public class SpikeCreator implements Updatable{
         if(context.getScore() % 5 == 0 && context.getScore() != 0){
             context.getColorManager().defineNewRandoCurrentColor();
         }
-
+        //context.getScoreBoardManager().addPoints();
         //Gdx.app.debug("Spike creator",Integer.toString(context.getScore()));
     }
     @Override

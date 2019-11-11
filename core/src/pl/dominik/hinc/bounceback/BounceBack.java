@@ -88,12 +88,21 @@ public class BounceBack extends Game {
 	//Preferences
 	private Preferences preferences;
 	public final static String HIGHSCOREPREFS = "HIGH_SCORE_SAVE";
+    public final static String TOTALJUMPSPREF = "TOTAL_JUMPS_SAVE";
+    public final static String TOTALDEATHSPREF = "TOTAL_DEATHS_SAVE";
+    public final static String TOTALPOINTSPREF = "TOTALPOINTS_SAVE";
+    public final static String TOTALPOWERUPSPREF = "TOTAL_POWERUPS_SAVE";
+    public final static String TOTALSHIELDPREF = "TOTAL_SHIELD_SAVE";
+    public final static String TOTALPLUSFIVEPREF = "TOTAL_PLUSFIVE_SAVE";
+    public final static String TOTALRANDOMTELEPORTPREF = "TOTAL_RANDOM_TELEPORT_SAVE";
 
 	private PowerUpManager powerUpManager;
 
 	private ParticleManager particleManager;
 
 	private UpsideDownViewManager upsideDownViewManager;
+
+	private ScoreBoardManager scoreBoardManager;
 
 	
 	@Override
@@ -148,6 +157,8 @@ public class BounceBack extends Game {
 		particleManager = new ParticleManager(this);
 		//UpsideDownView
 		upsideDownViewManager = new UpsideDownViewManager(this);
+		//ScoreBoard
+        scoreBoardManager = new ScoreBoardManager(this);
 		//Screen Related Code
 		screenCashe = new EnumMap<ScreenType, AbstractScreen>(ScreenType.class);
 		setScreen(ScreenType.LOADING);
@@ -277,7 +288,11 @@ public class BounceBack extends Game {
 		}
 	}
 
-	public UpsideDownViewManager getUpsideDownViewManager() {
+    public ScoreBoardManager getScoreBoardManager() {
+        return scoreBoardManager;
+    }
+
+    public UpsideDownViewManager getUpsideDownViewManager() {
 		return upsideDownViewManager;
 	}
 

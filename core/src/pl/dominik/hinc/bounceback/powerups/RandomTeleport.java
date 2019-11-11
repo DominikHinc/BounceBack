@@ -14,5 +14,6 @@ public class RandomTeleport extends AbstractPowerUp {
     @Override
     public void use() {
         context.getPowerUpManager().toTeleport = true;
+        context.getScoreBoardManager().addRandomTeleport();
     }
 }

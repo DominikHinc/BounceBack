@@ -43,7 +43,7 @@ public class ParticleManager implements RenderableEntity{
 
         Gdx.app.debug("Particle","jump");
         playerJumpParticle = new ParticleEffect();
-        playerJumpParticle.load(Gdx.files.internal("Particle/cloud.p"),Gdx.files.internal("Particle/"));
+        playerJumpParticle.load(Gdx.files.internal("Particle/cloudv2.p"),Gdx.files.internal("Particle/"));
 
         shieldDestroyedParticle.scaleEffect(particleScale);
         dieParticle.scaleEffect(particleScale);
@@ -77,7 +77,7 @@ public class ParticleManager implements RenderableEntity{
         if (playerJump){
             playerJump = false;
             int modifier = context.getUpsideDownViewManager().isUpsidedown() ? -1:1;
-            playerJumpParticle.getEmitters().first().setPosition(currentPlayerPos.x,currentPlayerPos.y+(context.getPlayer().playerDiameter/2*modifier));
+            playerJumpParticle.getEmitters().first().setPosition(currentPlayerPos.x,currentPlayerPos.y);
             Color c = context.getColorManager().currentColor;
             playerJumpParticle.getEmitters().first().getTint().setColors(new float[]{c.r,c.g,c.b,c.a});
             playerJumpParticle.start();

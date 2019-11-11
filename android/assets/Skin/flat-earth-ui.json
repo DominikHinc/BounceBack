@@ -327,7 +327,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	},
 	button: {
 		font: button
-		fontColor: color
+		fontColor: white
 	}
 	title: {
 		font: title
