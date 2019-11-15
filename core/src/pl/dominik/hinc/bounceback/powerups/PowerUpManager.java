@@ -79,6 +79,7 @@ public class PowerUpManager implements Updatable {
             case RANDOMTELEPORT:powerUp = new RandomTeleport(context);break;
             case WALLPOWERUP:powerUp = new WallPowerUp(context);break;
         }
+
         //powerUp = new ShieldPowerUp(context);
         powerUp.spawn();
         pointsToDelete = 3;

@@ -94,7 +94,12 @@ public class BounceBack extends Game {
     public final static String TOTALPOWERUPSPREF = "TOTAL_POWERUPS_SAVE";
     public final static String TOTALSHIELDPREF = "TOTAL_SHIELD_SAVE";
     public final static String TOTALPLUSFIVEPREF = "TOTAL_PLUSFIVE_SAVE";
-    public final static String TOTALRANDOMTELEPORTPREF = "TOTAL_RANDOM_TELEPORT_SAVE";
+	public final static String TOTALRANDOMTELEPORTPREF = "TOTAL_RANDOM_TELEPORT_SAVE";
+    public final static String LIGHTRAYS = "LIGHT_RAYS_SAVE";
+	public final static String RANDOMCOLOR = "RANODM_COLOR_SAVE";
+	public final static String COLORRED = "COLOR_RED_SAVE";
+	public final static String COLORGREEN = "COLOR_GREEN_SAVE";
+	public final static String COLORBLUE = "COLOR_BLUE_SAVE";
 
 	private PowerUpManager powerUpManager;
 
@@ -123,6 +128,8 @@ public class BounceBack extends Game {
 		//Gdx.input.setInputProcessor(inputManager);
 		//Updates
 		updatableArray = new Array<Updatable>();
+		//Preferences
+		preferences = Gdx.app.getPreferences("BounceBack Save");
 		//Box2D
 		Box2D.init();
 		world = new World(new Vector2(0,-9.81f),true);
@@ -144,13 +151,17 @@ public class BounceBack extends Game {
 		prepareSkin();
 		//Colors
 		colorManager = new ColorManager(this);
-		loadingColor = new Color(MathUtils.random(0.5f),MathUtils.random(0.5f),MathUtils.random(0.5f),MathUtils.random(0.5f));
+		if (colorManager.isRandomColors()){
+			loadingColor = new Color(MathUtils.random(0.5f),MathUtils.random(0.5f),MathUtils.random(0.5f),MathUtils.random(0.5f));
+		}else{
+			loadingColor = new Color(colorManager.red,colorManager.green,colorManager.blue,colorManager.alpha);
+		}
+
 		//Entities
 		player = new Player(this);
 		//GameRenderer
 		gameRenderer = new GameRenderer(this);
-		//Preferences
-		preferences = Gdx.app.getPreferences("BounceBack Save");
+
 		//PowerUps
 		powerUpManager = new PowerUpManager(this);
 		//ParticleEffects

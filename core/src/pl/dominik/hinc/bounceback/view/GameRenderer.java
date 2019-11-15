@@ -26,7 +26,7 @@ public class GameRenderer {
     //Light
     private Array<Light> lightArray;
     private PointLight playerLight;
-    int rays = 1024;
+    int rays = 640;
     int distance = 5;
     //Particles
 
@@ -37,6 +37,9 @@ public class GameRenderer {
         renderableEntities = new Array<>();
         spikes = new Array<>();
         shapeRenderer = new ShapeRenderer();
+        if(context.getPreferences().contains(BounceBack.LIGHTRAYS)){
+            rays = (int)context.getPreferences().getFloat(BounceBack.LIGHTRAYS);
+        }
         rayHandler = context.getRayHandler();
         createLights();
 
@@ -64,8 +67,6 @@ public class GameRenderer {
             light.setSoftnessLength(1);
             light.setSoft(true);
         }
-        //light = new PointLight(context.getRayHandler(),2048,new Color(0,0,0,0.75f),8,4.5f,8);
-        //light.setSoft(true);
     }
     public void createPlayerLight(){
         //Player Light
@@ -121,13 +122,12 @@ public class GameRenderer {
     }
 
     private void renderShield() {
-
         shapeRenderer.setColor(0f,1f,1f,0.65f);
         shapeRenderer.circle(context.getPlayer().getPlayerBody().getPosition().x,context.getPlayer().getPlayerBody().getPosition().y,context.getPlayer().playerDiameter+context.getPlayer().texturePlusSize,50);
 
     }
 
-    public void roundedRect(float x, float y, float width, float height, float radius) {
+    /*public void roundedRect(float x, float y, float width, float height, float radius) {
         // Central rectangle
         shapeRenderer.rect(x + radius, y + radius, width - 2 * radius, height - 2 * radius);
 
@@ -142,7 +142,7 @@ public class GameRenderer {
         shapeRenderer.arc(x + width - radius, y + radius, radius, 270f, 90f);
         shapeRenderer.arc(x + width - radius, y + height - radius, radius, 0f, 90f);
         shapeRenderer.arc(x + radius, y + height - radius, radius, 90f, 90f);
-    }
+    }*/
     private void update(){
         if (context.getScore() % 25 == 0){
             context.getCamera().zoom = -context.getCamera().zoom;
@@ -156,6 +156,18 @@ public class GameRenderer {
             light.setColor(color.r+0.25f,color.g+0.25f,color.b+0.25f,1);
         }
         //playerLight.setColor(color.r+0.15f,color.g+0.15f,color.b+0.15f,1);
+    }
+    public void changeLightRaysNumber(float rays){
+        this.rays = (int)rays;
+        for (Light light: lightArray){
+            light.remove(true);
+            light = null;
+        }
+        lightArray.clear();
+        playerLight.remove(true);
+        playerLight = null;
+        createLights();
+        createPlayerLight();
     }
 
         private void renderForeground() {

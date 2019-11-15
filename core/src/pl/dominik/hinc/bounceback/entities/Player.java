@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -14,10 +13,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
-import box2dLight.ConeLight;
-import box2dLight.DirectionalLight;
-import box2dLight.Light;
-import box2dLight.PointLight;
 import pl.dominik.hinc.bounceback.BounceBack;
 import pl.dominik.hinc.bounceback.enums.SpikeOrientation;
 import pl.dominik.hinc.bounceback.tools.Collidable;
@@ -133,50 +128,7 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
     public void render(SpriteBatch spriteBatch){
         if(playerSprite != null){
             if(context.getScore()%5 == 0 && textureWasCreated == false){
-                if(!context.getCurrentBirdTexture().getTextureData().isPrepared()){
-                    context.getCurrentBirdTexture().getTextureData().prepare();
-                }
-                pixmap = context.getCurrentBirdTexture().getTextureData().consumePixmap();
-                for (int y = 0; y < pixmap.getHeight(); y++){
-                    for (int x = 0; x < pixmap.getWidth(); x++){
-                        Color c = context.getColorManager().currentColor;
-                        Color color = new Color();
-                        Color.rgba8888ToColor(color,pixmap.getPixel(x,y));
-                        float addedToCol = 0;
-                        if (color.r == 1 && color.g == 0 & color.b == 0){
-                            addedToCol = 0.2f;
-                            color.r = c.r + addedToCol;
-                            color.g = c.g + addedToCol;
-                            color.b = c.b + addedToCol;
-                            //Gdx.app.debug("Red","Yes");
-
-                        }else if(color.r == 0 && color.g == 0 & color.b == 1){
-                            addedToCol = 0.1f;
-                            color.r = c.r + addedToCol;
-                            color.g = c.g + addedToCol;
-                            color.b = c.b + addedToCol;
-                            //Gdx.app.debug("Blue","Yes");
-                        }else if(color.r == 0 && color.g == 1 & color.b == 0){
-                            addedToCol = 0.005f;
-                            color.r = c.r + addedToCol;
-                            color.g = c.g + addedToCol;
-                            color.b = c.b + addedToCol;
-                            //Gdx.app.debug("Green","Yes");
-                        }else if(color.r == 1 && color.g == 1 & color.b == 1){
-                            color = Color.WHITE;
-                            //Gdx.app.debug("White","Yes");
-                        }
-                        if(color.a != 0){
-                            color.a = 1;
-                            pixmap.setColor(color);
-                            pixmap.fillRectangle(x,y,1,1);
-                        }
-                    }
-                }
-
-                playerSprite.setTexture(new Texture(pixmap));
-                textureWasCreated = true;
-                pixmap.dispose();
+                preparePlayerTextureWithNewColor();
             }
             if(context.getScore()%5 != 0){
                 textureWasCreated = false;
@@ -195,6 +147,52 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
             playerSprite.draw(spriteBatch);
 
         }
+    }
+    public void preparePlayerTextureWithNewColor(){
+        if(!context.getCurrentBirdTexture().getTextureData().isPrepared()){
+            context.getCurrentBirdTexture().getTextureData().prepare();
+        }
+        pixmap = context.getCurrentBirdTexture().getTextureData().consumePixmap();
+        for (int y = 0; y < pixmap.getHeight(); y++){
+            for (int x = 0; x < pixmap.getWidth(); x++){
+                Color c = context.getColorManager().currentColor;
+                Color color = new Color();
+                Color.rgba8888ToColor(color,pixmap.getPixel(x,y));
+                float addedToCol = 0;
+                if (color.r == 1 && color.g == 0 & color.b == 0){
+                    addedToCol = 0.2f;
+                    color.r = c.r + addedToCol;
+                    color.g = c.g + addedToCol;
+                    color.b = c.b + addedToCol;
+                    //Gdx.app.debug("Red","Yes");
+
+                }else if(color.r == 0 && color.g == 0 & color.b == 1){
+                    addedToCol = 0.1f;
+                    color.r = c.r + addedToCol;
+                    color.g = c.g + addedToCol;
+                    color.b = c.b + addedToCol;
+                    //Gdx.app.debug("Blue","Yes");
+                }else if(color.r == 0 && color.g == 1 & color.b == 0){
+                    addedToCol = 0.005f;
+                    color.r = c.r + addedToCol;
+                    color.g = c.g + addedToCol;
+                    color.b = c.b + addedToCol;
+                    //Gdx.app.debug("Green","Yes");
+                }else if(color.r == 1 && color.g == 1 & color.b == 1){
+                    color = Color.WHITE;
+                    //Gdx.app.debug("White","Yes");
+                }
+                if(color.a != 0){
+                    color.a = 1;
+                    pixmap.setColor(color);
+                    pixmap.fillRectangle(x,y,1,1);
+                }
+            }
+        }
+
+        playerSprite.setTexture(new Texture(pixmap));
+        textureWasCreated = true;
+        pixmap.dispose();
     }
     @Override
     public void update() {

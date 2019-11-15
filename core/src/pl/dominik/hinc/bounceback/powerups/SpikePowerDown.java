@@ -80,7 +80,12 @@ public class SpikePowerDown extends AbstractPowerUp {
 
     @Override
     public void use() {
-        context.getPlayer().setDead(true);
+        if(context.getPlayer().isShielded()){
+           context.getPlayer().setShielded(false);
+           context.getParticleManager().setShieldDestroyed(true);
+        }else{
+            context.getPlayer().setDead(true);
+        }
     }
 
 }

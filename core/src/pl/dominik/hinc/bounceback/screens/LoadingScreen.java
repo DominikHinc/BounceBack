@@ -52,7 +52,9 @@ public class LoadingScreen extends AbstractScreen<LoadingUI> implements InputLis
         if(context.getAssetManager().getProgress() == 1){
             context.getInputManager().destroyListener(this);
             context.setCurrentBirdTexture(context.getAssetManager().get("Player/BIRT.png", Texture.class));
-            context.getColorManager().currentColor = context.loadingColor;
+            if (context.getColorManager().isRandomColors() == true){
+                context.getColorManager().currentColor = new Color(context.loadingColor);
+            }
             context.loadingColor = null;
             context.setScreen(ScreenType.GAME);
         }

@@ -28,7 +28,13 @@ com.badlogic.gdx.graphics.Color: {
 		g: 0.5
 		b: 0.5
 		a: 1
-	}
+	},
+	lightgray: {
+		r: 0.7
+		g: 0.7
+		b: 0.7
+		a: 1
+	},
 	highlight: {
 		r: 0.42156863
 		g: 1
@@ -79,11 +85,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	checkbox-c: {
 		name: checkbox
-		color: color
+		color: white
 	}
 	checkbox-pressed-c: {
 		name: checkbox-pressed
-		color: color
+		color: lightgray
 	}
 	list-c: {
 		name: list
@@ -111,11 +117,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	slider-horizontal-c: {
 		name: slider-horizontal
-		color: color
+		color: gray
 	}
 	slider-knob-c: {
 		name: slider-knob
-		color: color
+		color: gray
 	}
 	slider-vertical-c: {
 		name: slider-vertical
@@ -183,11 +189,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	slider-knob-h: {
 		name: slider-knob
-		color: highlight
+		color: gray
 	}
 	slider-horizontal-p: {
 		name: slider-horizontal
-		color: pressed
+		color: white
 	}
 	slider-vertical-p: {
 		name: slider-vertical
@@ -263,9 +269,9 @@ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 		checkboxOn: checkbox-pressed-c
 		checkboxOff: checkbox-c
 		font: button
-		fontColor: color
-		downFontColor: pressed
-		overFontColor: highlight
+		fontColor: white,
+		downFontColor: gray,
+		overFontColor: lightgray
 	}
 	radio: {
 		checkboxOn: radio-pressed-c
