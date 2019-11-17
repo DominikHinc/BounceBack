@@ -26,7 +26,7 @@ public class GameRenderer {
     //Light
     private Array<Light> lightArray;
     private PointLight playerLight;
-    int rays = 640;
+    int rays = 512;
     int distance = 5;
     //Particles
 

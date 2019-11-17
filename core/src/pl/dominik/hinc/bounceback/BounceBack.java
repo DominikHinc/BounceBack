@@ -100,6 +100,7 @@ public class BounceBack extends Game {
 	public final static String COLORRED = "COLOR_RED_SAVE";
 	public final static String COLORGREEN = "COLOR_GREEN_SAVE";
 	public final static String COLORBLUE = "COLOR_BLUE_SAVE";
+	public final static String MUTE = "MUTE_SAVE";
 
 	private PowerUpManager powerUpManager;
 
@@ -108,6 +109,9 @@ public class BounceBack extends Game {
 	private UpsideDownViewManager upsideDownViewManager;
 
 	private ScoreBoardManager scoreBoardManager;
+
+	private boolean mute = false;
+	private float volume = 1;
 
 	
 	@Override
@@ -130,6 +134,9 @@ public class BounceBack extends Game {
 		updatableArray = new Array<Updatable>();
 		//Preferences
 		preferences = Gdx.app.getPreferences("BounceBack Save");
+		if (preferences.contains(BounceBack.MUTE)){
+			mute = preferences.getBoolean(BounceBack.MUTE);
+		}
 		//Box2D
 		Box2D.init();
 		world = new World(new Vector2(0,-9.81f),true);
@@ -299,7 +306,23 @@ public class BounceBack extends Game {
 		}
 	}
 
-    public ScoreBoardManager getScoreBoardManager() {
+    public float getVolume() {
+        return volume;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    public boolean isMute() {
+		return mute;
+	}
+
+	public void setMute(boolean mute) {
+		this.mute = mute;
+	}
+
+	public ScoreBoardManager getScoreBoardManager() {
         return scoreBoardManager;
     }
 

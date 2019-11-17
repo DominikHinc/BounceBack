@@ -89,7 +89,7 @@ public class Box2DWorldManager implements Updatable {
 
     public void wallTouched(){
         context.getSpikeCreator().setGoRight(!context.getSpikeCreator().isGoRight());
-        context.getSpikeCreator().updateSpikes();
+        context.getSpikeCreator().PointGained();
         context.getPowerUpManager().pointAdded();
     }
 

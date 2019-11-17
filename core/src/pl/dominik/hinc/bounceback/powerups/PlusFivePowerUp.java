@@ -20,6 +20,7 @@ public class PlusFivePowerUp extends AbstractPowerUp {
         Gdx.app.debug("PoweUP Spawn","Used Clone");
         context.getPowerUpManager().usedPlusFive = true;
         context.getScoreBoardManager().addPlusFive();
+        context.getPowerUpManager().playPowerUpGainSound();
     }
 
     @Override

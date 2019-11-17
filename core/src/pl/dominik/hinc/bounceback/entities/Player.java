@@ -2,6 +2,7 @@ package pl.dominik.hinc.bounceback.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -252,11 +253,14 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
         //TODO move it somewhere where it will be more suitable
         context.getParticleManager().playerDied(new Vector2(playerBody.getPosition()));
         createDeadPlayerRemainings(playerBody.getPosition());
+        if (context.isMute() == false){
+            context.getAssetManager().get("Audio/DeathSound.wav",Sound.class).play(context.getVolume());
+        }
         playerBody.setTransform(context.getScreenViewport().getWorldWidth()/2,context.getScreenViewport().getWorldHeight()/2,0);
         playerBody.setLinearVelocity(2.5f,0);
         int temp = context.getScore();
         context.setScore(-1);
-        context.getSpikeCreator().updateSpikes();
+        context.getSpikeCreator().PointGained();
         context.setScore(temp);
         //context.getWorld().destroyBody(playerBody);
         //playerBody = null;
@@ -275,6 +279,11 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
 
     public void setShielded(boolean shielded) {
         isShielded = shielded;
+        if (shielded == false){
+            if (context.isMute() == false){
+                context.getAssetManager().get("Audio/ShieldShatter.wav",Sound.class).play(context.getVolume());
+            }
+        }
     }
 
     public boolean isDead() {
@@ -297,6 +306,9 @@ public class Player implements Collidable, Updatable, InputListener, RenderableE
                 playerBody.applyLinearImpulse(new Vector2(0,jumpForce),playerBody.getWorldCenter(),true);
                 context.getParticleManager().playerJumpParticle(playerBody.getPosition());
                 context.getScoreBoardManager().addJumps();
+                if (context.isMute() == false){
+                    context.getAssetManager().get("Audio/JumpSound.wav", Sound.class).play(context.getVolume());
+                }
             }
         }
 

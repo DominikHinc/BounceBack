@@ -19,6 +19,7 @@ public class ShieldPowerUp extends AbstractPowerUp{
     public void use() {
         context.getPlayer().setShielded(true);
         context.getScoreBoardManager().addShields();
+        context.getPowerUpManager().playPowerUpGainSound();
     }
 
 }

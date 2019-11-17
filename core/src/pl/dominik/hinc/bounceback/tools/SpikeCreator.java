@@ -1,13 +1,11 @@
 package pl.dominik.hinc.bounceback.tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import pl.dominik.hinc.bounceback.BounceBack;
-import pl.dominik.hinc.bounceback.entities.PlayerRemains;
 import pl.dominik.hinc.bounceback.entities.Spike;
-import pl.dominik.hinc.bounceback.enums.ScreenType;
 import pl.dominik.hinc.bounceback.enums.SpikeOrientation;
 
 
@@ -33,12 +31,15 @@ public class SpikeCreator implements Updatable{
     }
     public void start(){
         createBottomAndTop();
-        updateSpikes();
+        PointGained();
     }
-    public void updateSpikes(){
+    public void PointGained(){
         timeToUpdateSpikes = true;
         context.addOneScore();
         context.getUpsideDownViewManager().pointAdded();
+        if (context.getScore() > 0 && context.isMute() == false){
+            context.getAssetManager().get("Audio/WallHit.wav", Sound.class).play(context.getVolume());
+        }
         //Color Change
         if(context.getScore() % 5 == 0 && context.getScore() != 0){
             context.getColorManager().defineNewRandoCurrentColor();

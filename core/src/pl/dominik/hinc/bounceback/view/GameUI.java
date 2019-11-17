@@ -1,5 +1,7 @@
 package pl.dominik.hinc.bounceback.view;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -56,6 +58,8 @@ public class GameUI extends Table implements Updatable {
     private Label BLabel;
     //private Label ALabel;
 
+    //Sounds
+    private CheckBox muteCheckBox;
 
     public GameUI(final BounceBack context){
         super(context.getSkin());
@@ -86,6 +90,9 @@ public class GameUI extends Table implements Updatable {
                 context.setScore(0);
                 context.getGameScreen().startGame();
                 context.getPlayer().getPlayerBody().setActive(true);
+                if (context.isMute() == false){
+                    context.getAssetManager().get("Audio/ButtonClick.wav", Sound.class).play(context.getVolume());
+                }
             }
         });
         scoreBoardButton = new TextButton("ScoreBoard",context.getSkin());
@@ -94,6 +101,9 @@ public class GameUI extends Table implements Updatable {
             public void clicked(InputEvent event, float x, float y) {
                 blank();
                 createScoreBoardUI();
+                if (context.isMute() == false){
+                    context.getAssetManager().get("Audio/ButtonClick.wav",Sound.class).play(context.getVolume());
+                }
             }
         });
         goBackButton = new TextButton("Go Back",context.getSkin());
@@ -102,6 +112,9 @@ public class GameUI extends Table implements Updatable {
             public void clicked(InputEvent event, float x, float y) {
                 blank();
                 createMenuUI();
+                if (context.isMute() == false){
+                    context.getAssetManager().get("Audio/ButtonClick.wav",Sound.class).play(context.getVolume());
+                }
                 if(inSettings){
                     inSettings = false;
                     context.getPlayer().preparePlayerTextureWithNewColor();
@@ -116,6 +129,9 @@ public class GameUI extends Table implements Updatable {
                 blank();
                 createSettingsUI();
                 inSettings = true;
+                if (context.isMute() == false){
+                    context.getAssetManager().get("Audio/ButtonClick.wav",Sound.class).play(context.getVolume());
+                }
             }
         });
 
@@ -134,6 +150,15 @@ public class GameUI extends Table implements Updatable {
                     context.getColorManager().colorChanged();
                     chaneSettingsColor();
                 }
+            }
+        });
+
+        muteCheckBox = new CheckBox("Mute",context.getSkin());
+        muteCheckBox.setChecked(context.isMute());
+        muteCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                context.setMute(muteCheckBox.isChecked());
             }
         });
 
@@ -184,6 +209,7 @@ public class GameUI extends Table implements Updatable {
         }
 
 
+
         /*ASlider = new Slider(min,max,stepsize,false,context.getSkin());
         ASlider.addListener(new ChangeListener() {
             @Override
@@ -200,6 +226,7 @@ public class GameUI extends Table implements Updatable {
         context.getPreferences().putFloat(BounceBack.COLORRED,RSlider.getValue());
         context.getPreferences().putFloat(BounceBack.COLORGREEN,GSlider.getValue());
         context.getPreferences().putFloat(BounceBack.COLORBLUE,BSlider.getValue());
+        context.getPreferences().putBoolean(BounceBack.MUTE,muteCheckBox.isChecked());
         context.getPreferences().flush();
     }
     public void chaneSettingsColor(){
@@ -210,6 +237,7 @@ public class GameUI extends Table implements Updatable {
         lightQualityLabel.setColor(c);
         randomColorCheckBox.getLabel().setColor(c);
         randomColorCheckBox.getImage().setColor(c);
+
         RLabel.setColor(c);
         GLabel.setColor(c);
         BLabel.setColor(c);
@@ -219,6 +247,8 @@ public class GameUI extends Table implements Updatable {
         GSlider.setColor(c);
         BSlider.setColor(c);
         //ASlider.setColor(c);
+        muteCheckBox.getLabel().setColor(c);
+        muteCheckBox.getImage().setColor(c);
         c = context.getColorManager().currentColor;
         goBackButton.setColor(c.r+m,c.g+m,c.b+m,c.a+m);
     }
@@ -236,8 +266,10 @@ public class GameUI extends Table implements Updatable {
         add(GLabel).expandX().right();
         add(GSlider).expandX().left().expandY();
         row();
-        add(BLabel).expandX().right().padBottom(375);
-        add(BSlider).expandX().left().expandY().padBottom(375);
+        add(BLabel).expandX().right();//.padBottom(375);
+        add(BSlider).expandX().left().expandY();//.padBottom(375);
+        row();
+        add(muteCheckBox).expandX().expandY().center().colspan(2).padBottom(375);
         row();
         /*add(ALabel).expandX().right().expandY();
         add(ASlider).expandX().left();

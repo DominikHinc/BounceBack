@@ -1,6 +1,7 @@
 package pl.dominik.hinc.bounceback.powerups;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -50,6 +51,10 @@ public class PowerUpManager implements Updatable {
             pointsToDelete--;
             if (pointsToDelete == 0){
                 powerUp.deletePowerUp();
+                if (context.isMute() == false){
+                    context.getAssetManager().get("Audio/PowerUpGone.wav",Sound.class).play(context.getVolume());
+                }
+
             }
         }
         //checking for plus five
@@ -70,6 +75,9 @@ public class PowerUpManager implements Updatable {
     }
     public void spawnPowerUp(){
         //Gdx.app.debug("PowerUpManager", "Spawn");
+        if (context.isMute() == false){
+            context.getAssetManager().get("Audio/PowerUpSpawn.wav", Sound.class).play(context.getVolume());
+        }
         context.getScoreBoardManager().addPowerUps();
         PowerUpType type = powerUpTypes.get(MathUtils.random(powerUpTypes.size-1));
         switch(type){
@@ -142,5 +150,10 @@ public class PowerUpManager implements Updatable {
         float randomY = MathUtils.random(4f,12f);
         context.getPlayer().getPlayerBody().setTransform(new Vector2(randomX,randomY),context.getPlayer().getPlayerBody().getAngle());
         toTeleport = false;
+    }
+    public void playPowerUpGainSound(){
+        if (context.isMute() == false){
+            context.getAssetManager().get("Audio/PowerUpPickUp.wav",Sound.class).play(context.getVolume());
+        }
     }
 }
